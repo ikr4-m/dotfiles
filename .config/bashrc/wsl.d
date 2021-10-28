@@ -1,2 +1,2 @@
-alias wslgui="sudo ~/dotfiles/bashrc/exec/wsl_start_server.sh"
+alias wslgui="sudo ~/.config/bashrc/exec/wsl_start_server.sh"
 
