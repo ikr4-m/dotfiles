@@ -1,0 +1,33 @@
+## Dependency (From APT/AUR)
+- openbox - Window Manager
+- dunst - Notification Daemon
+- polybar - Bar
+- feh - Image & Background Setter
+- rofi - dmenu replacement
+- gsimplecal - Simple Calendar
+- brightnessctl - Brightness Controller
+- xfce4 - XFCE4 Tools (for Power Control)
+- slock - Suckless Lockscreen
+- picom - Compositor
+- thunar - File Manager (alternative for Dolphin)
+- network-manager (nmcli) - Managing Network
+- d-feet - DBus Identifier
+- xorg-xev - Key identifier
+- remmina - Remote Desktop for RDP, VNC, etc
+- libguestfs - Modifying virtual machine
+- xclip - Clipboard
+- cups - Printer Management (:631)
+- gthumb - Image viewer
+- network-manager-applet - Network manager (nmcli gui)
+- rofi-dev
+- libnotify-bin
+- libimlib2-dev
+- libpulse-dev
+- libboost-program-options1.71-dev 
+- xcfe4-goodies
+
+## Dependency (manually install)
+- xmenu - Meta Menu
+- pamixer - Audio Controller
+- rofi-emoji - Emoji library for Rofi
+- cava - Terminal Visualizer
