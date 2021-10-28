@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+
+current="$(cat ~/.config/openbox/visual-mode/current)"
+
+if [[ $current != *"base"* ]]; then
+
+    # Kill Current
+    bash -c '~/.config/openbox/visual-mode/kill-all'
+    
+    # Set UI & Theme
+    bash -c '~/.config/openbox/visual-mode/base/theme'
+    bash -c '~/.config/openbox/visual-mode/base/ui'
+    
+    # Write Current
+    echo "base" > ~/.config/openbox/visual-mode/current
+
+    notify-send "Visual Mode" "Base Theme Applied"
+
+else
+
+    notify-send "Visual Mode" "You're Already in Base Theme"
+
+fi
+
