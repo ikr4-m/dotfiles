@@ -19,6 +19,7 @@ keys = [
     Key([mod], "h", lazy.layout.left(), desc="Move focus to left"),
     Key([mod], "l", lazy.layout.right(), desc="Move focus to right"),
     Key([mod], "j", lazy.layout.down(), desc="Move focus down"),
+    Key(["control", "mod1"], "Tab", lazy.layout.down(), desc="Move focus down, shorthand"),
     Key([mod], "k", lazy.layout.up(), desc="Move focus up"),
     Key(["mod1"], "Tab", lazy.layout.next(),
         desc="Move window focus to other window"),
@@ -83,7 +84,8 @@ Layouting
 """
 layouts = [
     layout.Columns(
-        border_focus_stack=['#d75f5f', '#8f3d3d'], border_width=1,
+        # Set color
+        border_focus_stack=['#d75f5f', '#8f3d3d'], border_width=3,
         margin=10
     ),
     layout.Max(),

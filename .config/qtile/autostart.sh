@@ -2,6 +2,7 @@
 
 thunar --daemon &
 feh --bg-scale ~/.wallpaper/default.jpg &
+picom -b &
 dunst -conf ~/.config/dunst/dunstrc-dark &
 xfce4-power-manager &
 start-pulseaudio-x11 &
