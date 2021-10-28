@@ -1,5 +1,5 @@
 ### OS
-- Linux : [Arch Linux](https://archlinux.org)
+- Linux : Manjaro
 - Windows : Windows 10 20H2.746
 
 ### Fonts
@@ -10,12 +10,12 @@
 
 ### App
 - Shell : [ohmyzsh](https://ohmyz.sh/) with [zsh-syntax-highlighting](https://github.com/zsh-users/zsh-syntax-highlighting)  
-- Terminal : Konsole / [yakuake](https://github.com/KDE/yakuake) / [urxvt](https://github.com/exg/rxvt-unicode)
+- Terminal : [alacritty](https://github.com/alacritty/alacritty)  / [urxvt](https://github.com/exg/rxvt-unicode)
 - Text Editor : [vim](https://www.vim.org/) & [neovim](https://neovim.io/)
 - Terminal Multiplexer : [tmux](https://github.com/tmux/tmux)
 - Terminal Emulator : [eDEX-UI](https://github.com/GitSquared/edex-ui)
-- DE: [Plasma](https://kde.org/plasma-desktop/)
-- WM: [Openbox](http://openbox.org/)
+- DE: [XFCE4](https://www.xfce.org/)
+- WM: [Openbox](http://openbox.org/) & [Qtile](https://qtile.org/)
 
 ### Security
 - GPG : GnuPG2
@@ -27,8 +27,3 @@
 ### Wine (Linux Gaming)
 - Wine: [Proton Experimental](https://github.com/ValveSoftware/Proton/) with [tweaking from Steam](https://github.com/ValveSoftware/wine). 
 - Libs: [dxvk-bin](https://aur.archlinux.org/packages/dxvk-bin/)
-
-### Remote
-- [GitHub](https://github.com/skymunn/dotfiles)
-- [Sourcehut](https://git.sr.ht/~munn/dotfiles)
-
