@@ -1,5 +1,3 @@
 #!/usr/bin/env bash
 
-kdeconnect-indicator &
-yakuake &
-
+# Fill in here some autostart tray

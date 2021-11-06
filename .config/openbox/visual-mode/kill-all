@@ -1,8 +1,5 @@
 #!/usr/bin/env bash
 
-# Kill panels
-killall tint2
-
 # Kill notification daemon
 killall dunst
 

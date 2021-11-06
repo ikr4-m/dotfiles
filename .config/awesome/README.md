@@ -1,3 +1,4 @@
+**DEPRECATED**
 The ultimate Modular AwesomeWM configuration!
 
 # Dependencies

@@ -7,13 +7,17 @@ from libqtile import bar, layout, widget, hook
 from libqtile.config import Click, Drag, Group, Key, Match, Screen
 from libqtile.lazy import lazy
 
-def get_user_path(path):
-    return "/home/" + getpass.getuser() + "/" + path
+# Configuration here
+mod = "mod4"
+widget_show = True
+myTerm = "alacritty"
 
 """
 List shortcut keyboard
 """
-mod = "mod4"
+def get_user_path(path):
+    return "/home/" + getpass.getuser() + "/" + path
+
 keys = [
     # Switch between windows
     Key([mod], "h", lazy.layout.left(), desc="Move focus to left"),
@@ -24,7 +28,6 @@ keys = [
     Key(["mod1"], "Tab", lazy.layout.next(),
         desc="Move window focus to other window"),
     Key([mod], "space", lazy.next_layout(), desc="Toggle between layouts"),
-    Key([mod], "w", lazy.window.kill(), desc="Kill focused window"),
 
     # Move windows between left/right columns or move up/down in current stack.
     Key([mod, "shift"], "h", lazy.layout.shuffle_left(),
@@ -47,9 +50,15 @@ keys = [
     Key([mod], "n", lazy.layout.normalize(), desc="Reset all window sizes"),
     Key([mod, "control"], "n", lazy.layout.toggle_split(),
         desc="Toggle between split and unsplit sides of stack"),
+    Key([mod], "w", lazy.window.kill(), desc="Kill focused window"),
+    Key([mod], "f", lazy.window.toggle_floating(), desc="Toggle floating"),
+
+    # Monitor focus
+    Key([mod], "period", lazy.next_screen(), desc='Move focus to next monitor'),
+    Key([mod], "comma", lazy.prev_screen(), desc='Move focus to prev monitor'),
 
     # Launch application
-    Key([mod], "Return", lazy.spawn("alacritty"), desc="Launch terminal"),
+    Key([mod], "Return", lazy.spawn(myTerm), desc="Launch terminal"),
     Key([mod], "r",
         lazy.spawn(get_user_path(".config/rofi/launchers/text/launcher.sh"))),
     Key([mod, "control"], "Return", lazy.spawn("slock")),
@@ -82,20 +91,23 @@ for i, name in enumerate(group_names):
 """
 Layouting
 """
+layout_theme = {
+    "border_width": 2,
+    "margin": 8,
+    "border_focus": "#d8dee9",
+    "border_normal": "#2e3440"
+}
 layouts = [
-    layout.Columns(
-        # Set color
-        border_focus_stack=['#d75f5f', '#8f3d3d'], border_width=3,
-        margin=10
-    ),
-    layout.Max(),
-    layout.TreeTab(),
+    layout.Columns(**layout_theme),
+    layout.Max(**layout_theme),
+    #layout.Floating(**layout_theme),
+    #layout.Stack(num_stacks=2),
+    layout.TreeTab()
 ]
 
 """
 Widget and Screen
 """
-screen_show = True
 widget_defaults = dict(
     font='sans',
     fontsize=12,
@@ -146,7 +158,7 @@ def autostart():
 
 @hook.subscribe.startup
 def startup():
-    screen_bottom.show(screen_show)
+    screen_bottom.show(widget_show)
 
 
 dgroups_key_binder = None
