@@ -39,6 +39,10 @@ keys = [
     Key([mod, "shift"], "k", lazy.layout.shuffle_up(),
         desc="Move window up"),
 
+    ### Treetab controls
+    Key([mod, "shift"], "h", lazy.layout.move_left(), desc='Move up a section in treetab'),
+    Key([mod, "shift"], "l", lazy.layout.move_right(), desc='Move down a section in treetab'),
+
     # Manipulate windows
     Key([mod, "control"], "h", lazy.layout.grow_left(),
         desc="Grow window to the left"),
@@ -95,14 +99,33 @@ layout_theme = {
     "border_width": 2,
     "margin": 8,
     "border_focus": "#d8dee9",
-    "border_normal": "#2e3440"
+    "border_normal": "#2e3440",
+    "border_focus_stack": "#e5e9f0",
+    "border_normal_stack": "#3b4252",
+    "active_fg": "000000",
+    "inactive_fg": "ffffff"
 }
 layouts = [
     layout.Columns(**layout_theme),
     layout.Max(**layout_theme),
-    #layout.Floating(**layout_theme),
-    #layout.Stack(num_stacks=2),
-    layout.TreeTab()
+    layout.Floating(**layout_theme),
+    layout.TreeTab(
+        fontsize=10,
+        sections=["TreeTab"],
+        section_fontsize=10,
+        border_width=2,
+        bg_color=layout_theme["border_normal"],
+        active_bg=layout_theme["border_focus"],
+        active_fg=layout_theme["active_fg"],
+        inactive_bg=layout_theme["border_normal_stack"],
+        inactive_fg=layout_theme["inactive_fg"],
+        padding_left=0,
+        padding_x=0,
+        padding_y=5,
+        level_shift=8,
+        vspace=3,
+        panel_width=200
+    )
 ]
 
 """
