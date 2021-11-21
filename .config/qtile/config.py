@@ -40,8 +40,8 @@ keys = [
         desc="Move window up"),
 
     ### Treetab controls
-    Key([mod, "shift"], "h", lazy.layout.move_left(), desc='Move up a section in treetab'),
-    Key([mod, "shift"], "l", lazy.layout.move_right(), desc='Move down a section in treetab'),
+    #Key([mod, "shift"], "h", lazy.layout.move_left(), desc='Move up a section in treetab'),
+    #Key([mod, "shift"], "l", lazy.layout.move_right(), desc='Move down a section in treetab'),
 
     # Manipulate windows
     Key([mod, "control"], "h", lazy.layout.grow_left(),
@@ -78,6 +78,16 @@ keys = [
     Key([mod, "shift"], "r", lazy.spawncmd(),
         desc="Spawn a command using a prompt widget"),
 ]
+
+# Drag floating layouts.
+mouse = [
+    Drag([mod], "Button1", lazy.window.set_position_floating(),
+         start=lazy.window.get_position()),
+    Drag([mod], "Button3", lazy.window.set_size_floating(),
+         start=lazy.window.get_size()),
+    Click([mod], "Button2", lazy.window.bring_to_front())
+]
+
 
 """
 Workspace/Group
@@ -131,6 +141,12 @@ layouts = [
 """
 Widget and Screen
 """
+def get_monitor_length():
+    output = subprocess.run(['xrandr'], stdout=subprocess.PIPE).stdout.decode('utf-8')
+    output = output.split("\n")
+    output = [o for o in output if "connected" in o]
+    return len(output)
+
 widget_defaults = dict(
     font='sans',
     fontsize=12,
@@ -150,25 +166,15 @@ screen_bottom = bar.Bar(
             name_transform=lambda name: name.upper(),
         ),
         widget.Volume(),
-        widget.Systray(),
+        #widget.Systray(),
         widget.Clock(format='%Y-%m-%d %a %I:%M %p'),
         widget.QuickExit(),
     ],
     24,
 )
-screens = [
-    Screen(bottom=screen_bottom),
-]
-
-# Drag floating layouts.
-mouse = [
-    Drag([mod], "Button1", lazy.window.set_position_floating(),
-         start=lazy.window.get_position()),
-    Drag([mod], "Button3", lazy.window.set_size_floating(),
-         start=lazy.window.get_size()),
-    Click([mod], "Button2", lazy.window.bring_to_front())
-]
-
+screens = []
+for i in range(0, get_monitor_length()):
+    screens.append(Screen(bottom=screen_bottom))
 
 @hook.subscribe.startup_once
 def autostart():
