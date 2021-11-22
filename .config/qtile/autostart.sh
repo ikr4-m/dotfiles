@@ -3,9 +3,8 @@
 # Thunar Daemon
 thunar --daemon &
 
-# Feh (for dual monitor & single monitor)
+# Feh
 feh --bg-scale ~/.wallpaper/default.jpg &
-feh --bg-scale ~/.wallpaper/default.jpg --bg-fill ~/.wallpaper/default.jpg &
 
 # Compositor
 picom -b &
