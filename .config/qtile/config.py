@@ -184,11 +184,9 @@ def autostart():
     home = os.path.expanduser("~/.config/qtile/autostart.sh")
     subprocess.call([home])
 
-
 @hook.subscribe.startup
 def startup():
     screen_bottom.show(widget_show)
-
 
 dgroups_key_binder = None
 dgroups_app_rules = []  # type: List
