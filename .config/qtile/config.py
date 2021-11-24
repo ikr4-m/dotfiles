@@ -11,6 +11,7 @@ from libqtile.lazy import lazy
 mod = "mod4"
 widget_show = True
 myTerm = "alacritty"
+myFileExplorer = "thunar"
 
 """
 List shortcut keyboard
@@ -63,9 +64,9 @@ keys = [
 
     # Launch application
     Key([mod], "Return", lazy.spawn(myTerm), desc="Launch terminal"),
-    Key([mod], "r",
-        lazy.spawn(get_user_path(".config/rofi/launchers/text/launcher.sh"))),
-    Key([mod, "control"], "Return", lazy.spawn("slock")),
+    #Key([mod], "r", lazy.spawn(get_user_path(".config/rofi/launchers/text/launcher.sh"))),
+    Key([mod, "control"], "Return", lazy.spawn("slock"), desc="Lock computer"),
+    Key([mod], "e", lazy.spawn(myFileExplorer), desc="Launch file explorer"),
 
     # Media Hotkeys
     Key([], 'XF86AudioRaiseVolume', lazy.spawn('pamixer -i 10')),
