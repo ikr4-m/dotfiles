@@ -1,8 +1,5 @@
 #!/bin/sh
 
-# Thunar Daemon
-thunar --daemon &
-
 # Feh
 feh --bg-scale ~/.wallpaper/default.jpg &
 

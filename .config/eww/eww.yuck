@@ -1,75 +1,67 @@
-(defwidget bar []
-  (centerbox :orientation "h"
-    (workspaces)
-    (music)
-    (sidestuff)))
+; Mainwindow
+(defwindow mainmenu
+    :wm-ignore: true
+    :monitor 0
+    :windowtype "dialog"
+    :focusable true
+    :geometry (geometry :x "0px"
+                        :y "0px"
+                        :width "15%"
+                        :height "50%"
+                        :anchor "center")
+(combined))
 
-(defwidget sidestuff []
-  (box :class "sidestuff" :orientation "h" :space-evenly false :halign "end"
-    (metric :label "🔊"
-            :value volume
-            :onchange "amixer -D pulse sset Master {}%")
-    (metric :label ""
-            :value {EWW_RAM.used_mem_perc}
-            :onchange "")
-    (metric :label "💾"
-            :value {round((1 - (EWW_DISK["/"].free / EWW_DISK["/"].total)) * 100, 0)}
-            :onchange "")
-    time))
+; Pollers
+(defpoll search_listen :interval "1s" "cat ~/.config/eww/scripts/search_items.txt")
 
-(defwidget workspaces []
-  (box :class "workspaces"
-       :orientation "h"
-       :space-evenly true
-       :halign "start"
-       :spacing 10
-    (button :onclick "wmctrl -s 0" 1)
-    (button :onclick "wmctrl -s 1" 2)
-    (button :onclick "wmctrl -s 2" 3)
-    (button :onclick "wmctrl -s 3" 4)
-    (button :onclick "wmctrl -s 4" 5)
-    (button :onclick "wmctrl -s 5" 6)
-    (button :onclick "wmctrl -s 6" 7)
-    (button :onclick "wmctrl -s 7" 8)
-    (button :onclick "wmctrl -s 8" 9)))
+; Main container widget
+(defwidget combined []
+    (eventbox :onhoverlost "eww close mainmenu"
+      (box  :orientation "h"
+            :space-evenly false
+            :halign "center"
+            :class "main-container"
+            :spacing 50
+        (searchwidget)
+        (powerbutton)
+      )
+    )
+  )
 
-(defwidget music []
-  (box :class "music"
-       :orientation "h"
-       :space-evenly false
-       :halign "center"
-    {music != "" ? "🎵${music}" : ""}))
+; Searchapp widget 
+(defwidget searchwidget []
+    (box  :orientation "v"
+        :class "search-win"
+        :space-evenly false
+        :halign "top"
+        :valign "top"
+        (box  :orientation "h"
+                :class "searchapps-bar"
+                :space-evenly false
+                :halign "top"
+                :valign "top"
+            (label  :class "search-label" :text "")
+            (input  :class "search-bar" :onchange "~/.config/eww/scripts/search.sh {}")
+        )
+        (literal  :halign "center"
+                    :valign "center"
+                    :class "app-container"
+                    :content search_listen
+        )
+    )
+)
 
-
-(defwidget metric [label value onchange]
-  (box :orientation "h"
-       :class "metric"
-       :space-evenly false
-    (box :class "label" label)
-    (scale :min 0
-           :max 101
-           :active {onchange != ""}
-           :value value
-           :onchange onchange)))
-
-
-
-(deflisten music :initial ""
-  "playerctl --follow metadata --format '{{ artist }} - {{ title }}' || true")
-
-(defpoll volume :interval "1s"
-  "scripts/getvol")
-
-(defpoll time :interval "10s"
-  "date '+%H:%M %b %d, %Y'")
-
-(defwindow bar
-  :monitor 0
-  :windowtype "dock"
-  :geometry (geometry :x "0%"
-                      :y "0%"
-                      :width "90%"
-                      :height "10px"
-                      :anchor "top center")
-  :reserve (struts :side "top" :distance "4%")
-  (bar))
+(defwidget powerbutton []
+      (box  :orientation "v"
+            :space-evenly true
+            :halign "center"
+            :valign "center"
+            :class "power-menu"
+            :spacing 25
+        (button :class "power-button" :style "font-size: 2rem" :onclick "light-locker-command -l" "")
+        (button :class "power-button" :style "font-size: 2rem" :onclick "systemctl reboot" "")
+        (button :class "power-button-off" :style "font-size: 2rem" :onclick "systemctl poweroff" "")
+        (button :class "power-button" :style "font-size: 2rem" :onclick "systemctl suspend" "")
+        (button :class "power-button" :style "font-size: 2rem" :onclick "openbox --exit" "")
+      )
+  )

@@ -1,55 +1,107 @@
+//color define
+//main color
+$bg: #2e3440;
+$fg: #d8dee9;
+$item-bg: rgba(10, 10, 10, 0.4);
+
+//16color from nord xresources
+$black-darker: #1e222a;
+$black: #3b4252;
+$black-light: #434c5e;
+$black-lighter: #4c566a;
+$red: #bf616a;
+$orange: #d08770;
+$green: #a3be8c;
+$blue: #81a1c1;
+$yellow: #ebcb8b;
+$purple: #b48ead;
+$cyan: #88c0d0;
+$cyan-light: #8fbcbb;
+$white: #e5e9f0;
+$white-light: #eceff4;
+
+// unset all gtk theming & define font used whole
 * {
-  all: unset; //Unsets everything so you can style everything from scratch
+  all: unset;
+  font-family: "Iosevka Nerd Font";
 }
 
-//Global Styles
-.bar {
-  background-color: #3a3a3a;
-  color: #b0b4bc;
-  padding: 10px;
+// set mainwindow text color
+
+window {
+  color: $fg;
 }
 
-// Styles on classes (see eww.yuck for more information)
-
-.sidestuff slider {
-  all: unset;
-  color: #ffd5cd;
+// main container
+.main-container {
+  background: none;
 }
 
-.metric scale trough highlight {
-  all: unset;
-  background-color: #D35D6E;
-  color: #000000;
-  border-radius: 10px;
-}
-.metric scale trough {
-  all: unset;
-  background-color: #4e4e4e;
-  border-radius: 50px;
-  min-height: 3px;
-  min-width: 50px;
-  margin-left: 10px;
-  margin-right: 20px;
-}
-.metric scale trough highlight {
-  all: unset;
-  background-color: #D35D6E;
-  color: #000000;
-  border-radius: 10px;
-}
-.metric scale trough {
-  all: unset;
-  background-color: #4e4e4e;
-  border-radius: 50px;
-  min-height: 3px;
-  min-width: 50px;
-  margin-left: 10px;
-  margin-right: 20px;
-}
-.label-ram {
-  font-size: large;
-}
-.workspaces button:hover {
-  color: #D35D6E;
+// searchapp widget
+.search-win {
+  background: $bg;
+  border: 3px solid $blue;
 }
 
+.searchapps-bar {
+  color: $cyan;
+  font-size: 1.5rem;
+  margin: -3px;
+  padding: 1em;
+  background-color: $black-darker;
+  border: 3px solid $blue;
+}
+
+.search-bar {
+  color: $cyan;
+  // width: 100%;
+  min-height: 3em;
+  min-width: 10em;
+}
+.search-label {
+  font-family: "Iosevka";
+  font-size: 2rem;
+  font-weight: 700;
+  padding-right: 1rem;
+}
+.app-container {
+  margin: -2px;
+  font-size: 1.25rem;
+  padding: 3rem;
+  color: $cyan;
+}
+.item {
+  padding: 0.8rem;
+  background: $item-bg;
+}
+
+// powermenu widget
+
+.power-menu {
+  background: $bg;
+  border: 3px solid $blue;
+  padding: 2em 1em;
+  font-size: 1rem;
+}
+
+.power-button {
+  border-radius: 50%;
+  padding: 1em;
+  color: $fg;
+  background-color: $black-light;
+}
+
+.power-button:hover{
+    background-color: $black-lighter;
+}
+
+.power-button-off {
+  border-radius: 50%;
+  padding: 1em;
+  color: $fg;
+  background-color: $red;
+}
+
+.power-button-off:hover {
+  background-color: $orange;
+}

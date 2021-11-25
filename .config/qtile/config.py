@@ -41,8 +41,8 @@ keys = [
         desc="Move window up"),
 
     ### Treetab controls
-    #Key([mod, "shift"], "h", lazy.layout.move_left(), desc='Move up a section in treetab'),
-    #Key([mod, "shift"], "l", lazy.layout.move_right(), desc='Move down a section in treetab'),
+    Key([mod, "shift", "control"], "h", lazy.layout.move_left(), desc='Move up a section in treetab'),
+    Key([mod, "shift", "control"], "l", lazy.layout.move_right(), desc='Move down a section in treetab'),
 
     # Manipulate windows
     Key([mod, "control"], "h", lazy.layout.grow_left(),
@@ -66,12 +66,17 @@ keys = [
     Key([mod], "Return", lazy.spawn(myTerm), desc="Launch terminal"),
     #Key([mod], "r", lazy.spawn(get_user_path(".config/rofi/launchers/text/launcher.sh"))),
     Key([mod, "control"], "Return", lazy.spawn("slock"), desc="Lock computer"),
-    Key([mod], "e", lazy.spawn(myFileExplorer), desc="Launch file explorer"),
+    Key([mod, "shift"], "s",
+            lazy.spawn("scrot --select -e 'mv $f ~/Pictures'"),
+            desc="Screenshot region"),
+    Key([mod, "shift", "control"], "s",
+            lazy.spawn("scrot --pointer -e 'mv $f ~/Pictures'"),
+            desc="Screenshot all region"),
 
     # Media Hotkeys
     Key([], 'XF86AudioRaiseVolume', lazy.spawn('pamixer -i 10')),
     Key([], 'XF86AudioLowerVolume', lazy.spawn('pamixer -d 10')),
-    Key([], 'XF86AudioMute', lazy.spawn('pulseaudio-ctl set 1')),
+    Key([], 'XF86AudioMute', lazy.spawn('pamixer -t')),
 
     # Utility
     Key([mod, "control"], "r", lazy.restart(), desc="Restart Qtile"),
