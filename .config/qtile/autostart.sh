@@ -18,3 +18,6 @@ xfsettingsd &
 
 # Wifi Applet
 nm-applet &
+
+# EWW Daemon
+eww daemon
