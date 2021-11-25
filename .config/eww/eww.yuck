@@ -58,10 +58,10 @@
             :valign "center"
             :class "power-menu"
             :spacing 25
-        (button :class "power-button" :style "font-size: 2rem" :onclick "light-locker-command -l" "")
-        (button :class "power-button" :style "font-size: 2rem" :onclick "systemctl reboot" "")
-        (button :class "power-button-off" :style "font-size: 2rem" :onclick "systemctl poweroff" "")
-        (button :class "power-button" :style "font-size: 2rem" :onclick "systemctl suspend" "")
-        (button :class "power-button" :style "font-size: 2rem" :onclick "openbox --exit" "")
+        (button :class "power-button" :style "font-size: 2rem" :onclick "slock" "")
+        (button :class "power-button" :style "font-size: 2rem" :onclick "systemctl reboot" "ﰇ")
+        (button :class "power-button-off" :style "font-size: 2rem" :onclick "systemctl poweroff" "")
+        (button :class "power-button" :style "font-size: 2rem" :onclick "systemctl suspend" "")
+        (button :class "power-button" :style "font-size: 2rem" :onclick "openbox --exit" "")
       )
   )

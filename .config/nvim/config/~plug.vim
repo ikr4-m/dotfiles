@@ -18,6 +18,8 @@ Plug 'ctrlpvim/ctrlp.vim'
 Plug 'sheerun/vim-polyglot'
 " Markdown preview
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && npm i' }
+" yuck
+Plug 'elkowar/yuck.vim'
 
 " Rest of theme here
 " shades-of-purple
