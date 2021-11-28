@@ -65,6 +65,7 @@ keys = [
     # Launch application
     Key([mod], "Return", lazy.spawn(myTerm), desc="Launch terminal"),
     Key([mod], "r", lazy.spawn("eww open mainmenu"), desc="Open mainmenu"),
+    Key([mod], "e", lazy.spawn(myFileExplorer), desc="Open explorer"),
     Key([mod, "control"], "Return", lazy.spawn("slock"), desc="Lock computer"),
     Key([mod, "shift"], "s",
             lazy.spawn("scrot --select -e 'mv $f ~/Pictures'"),

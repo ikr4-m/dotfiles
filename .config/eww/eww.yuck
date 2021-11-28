@@ -9,13 +9,13 @@
                         :width "15%"
                         :height "50%"
                         :anchor "center")
-(combined))
+(wmainmenu))
 
 ; Pollers
 (defpoll search_listen :interval "1s" "cat ~/.config/eww/scripts/search_items.txt")
 
 ; Main container widget
-(defwidget combined []
+(defwidget wmainmenu []
     (eventbox :onhoverlost "eww close mainmenu"
       (box  :orientation "h"
             :space-evenly false
@@ -41,7 +41,7 @@
                 :halign "top"
                 :valign "top"
             (label  :class "search-label" :text "")
-            (input  :class "search-bar" :onchange "~/.config/eww/scripts/search.sh {}")
+            (input  :class "search-bar" :onchange "py ~/.config/eww/scripts/search.py '{}'")
         )
         (literal  :halign "center"
                     :valign "center"
