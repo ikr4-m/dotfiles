@@ -25,7 +25,7 @@ def get_query_desktop(query, limit=8):
     app += map(map_desktop, exec_shell(args))
 
     # Get from /usr/bin
-    args[2] = "cd /usr/bin && ls | egrep -i \"dis\""
+    args[2] = "cd /usr/bin && ls | egrep -i \"{q}\"".format(q=query)
     app += map(map_bin, exec_shell(args))
 
     #return app
