@@ -1,0 +1,84 @@
+; Main container widget
+(defwidget wwidget []
+    (box :class "main-container"
+         :orientation "v"
+         :spacing 20
+         :space-evenly false
+        (widget-system)
+        (widget-clock)
+        (widget-uptime)
+        )
+    )
+
+; System widget
+(defwidget widget-system []
+    (box :class "widget-system"
+         :orientation "v"
+         :space-evenly false
+        (box :space-evenly true
+             :orientation "h"
+             :valign "center"
+            (label :text "Ini CPU")
+            (label :text "Ini RAM")
+            )
+        (box :space-evenly true
+             :orientation "h"
+             :valign "center"
+            (label :text "Ini Bright")
+            (label :text "Ini Vol")
+            )
+        )
+    )
+
+; Pollers for Clock Widget
+(defpoll date_clock :interval "1s" "date '+%R'")
+(defpoll date_full :interval "1m" "date '+%A, %e %B %G'")
+
+; Variable button or something
+(defvar app_calendar "osmo &")
+
+; Clock widget
+(defwidget widget-clock []
+    (button :onclick app_calendar
+        (box :class "widget-clock"
+             :space-evenly false
+             :orientation "v"
+            (box :space-evenly false
+                 :halign "center"
+                (label :text date_clock :style "font-size: 5.5rem")
+                )
+            (box :space-evenly false
+                 :halign "center"
+                 :style "padding: 10px 1px 1px 1px;"
+                (label :text date_full :style "font-size: 1.5rem;")
+                )
+            )
+        )
+    )
+
+; Pollers for uptime widget
+(defpoll uptime_hours :interval "5s" "uptime -p | awk '{print ($2 > 1) ? $2 \" hours\" : $2 \" hour\"}'")
+(defpoll uptime_minutes :interval "5s" "uptime -p | awk '{print ($2 > 1) ? $4 \" minutes\" : $2 \" minute\"}'")
+
+; Uptime widget
+(defwidget widget-uptime []
+    (box :class "widget-uptime"
+         :space-evenly false
+        (box :space-evenly true
+             :valign "center"
+             :halign "center"
+            (box :space-evenly false
+                 :orientation "v"
+                 :halign "center"
+                 :valign "center"
+                (label :text "" :style "font-size: 6rem")
+                )
+            (box :space-evenly true
+                 :orientation "v"
+                 :valign "center"
+                (label :text uptime_hours :style "font-size: 1.7rem;")
+                (label :text uptime_minutes :style "font-size: 1.7rem;")
+                )
+            )
+        )
+    )

@@ -120,10 +120,12 @@ layout_theme = {
     "border_focus_stack": "#e5e9f0",
     "border_normal_stack": "#3b4252",
     "active_fg": "000000",
-    "inactive_fg": "ffffff"
+    "inactive_fg": "ffffff",
+    "grow_amount": 5
 }
 layouts = [
     layout.Columns(**layout_theme),
+    layout.Bsp(**layout_theme),
     layout.Max(**layout_theme),
     layout.Floating(**layout_theme),
     layout.TreeTab(
@@ -203,7 +205,8 @@ if get_monitor_length() > 1:
                     widget.WindowName(**widget_config),
                     widget.Clock()
                 ],
-                30
+                30,
+                **bar_config
             ))
         )
 

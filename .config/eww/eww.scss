@@ -26,8 +26,9 @@ $white-light: #eceff4;
   font-family: "Iosevka Nerd Font";
 }
 
-// set mainwindow text color
-
+/**
+ * Mainmenu
+ */
 window {
   color: $fg;
 }
@@ -85,23 +86,52 @@ window {
 }
 
 .power-button {
+  :hover {
+    background-color: $black-lighter;
+  }
+
   border-radius: 50%;
   padding: 1em;
   color: $fg;
   background-color: $black-light;
 }
 
-.power-button:hover{
-    background-color: $black-lighter;
-}
-
 .power-button-off {
+  :hover {
+    background-color: $orange;
+  }
+
   border-radius: 50%;
   padding: 1em;
   color: $fg;
   background-color: $red;
 }
 
-.power-button-off:hover {
-  background-color: $orange;
+/**
+ * Widget
+ */
+.widget {
+  color: $fg;
+  font-family: "Noto Sans";
+
+  &-system {
+    background: $bg;
+    padding: 1rem;
+    border: 1px solid $blue;
+    border-radius: 20px;
+  }
+
+  &-clock {
+    background: $bg;
+    padding: 2rem 3rem;
+    border: 1px solid $blue;
+    border-radius: 20px;
+  }
+
+  &-uptime {
+    background: $bg;
+    padding: 1.5rem 3rem;
+    border: 1px solid $blue;
+    border-radius: 20px;
+  }
 }

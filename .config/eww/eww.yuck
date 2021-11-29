@@ -1,5 +1,6 @@
 ; Import all window
 (include "mainmenu.yuck")
+(include "widget.yuck")
 
 ; Mainmenu
 (defwindow mainmenu
@@ -13,4 +14,18 @@
                         :height "50%"
                         :anchor "center")
     (wmainmenu)
+)
+
+; Widget
+(defwindow widget
+    :wm-ignore true
+    :monitor 0
+    :windowtype "dock"
+    :focusable false
+    :geometry (geometry :x "-3%"
+                        :y "3%"
+                        :width "15%"
+                        :anchor "top right")
+    :stacking "bg"
+    (wwidget)
 )
