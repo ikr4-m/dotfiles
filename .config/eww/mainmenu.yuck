@@ -1,0 +1,54 @@
+; Main container widget
+(defwidget wmainmenu []
+    (eventbox :onhoverlost "eww close mainmenu"
+      (box  :orientation "h"
+            :space-evenly false
+            :halign "center"
+            :class "main-container"
+            :spacing 50
+        (searchwidget)
+        (powerbutton)
+      )
+    )
+  )
+
+; Pollers
+(defpoll search_listen :interval "1s" "cat ~/.config/eww/scripts/search_items.txt")
+
+; Searchapp widget 
+(defwidget searchwidget []
+    (box  :orientation "v"
+        :class "search-win"
+        :space-evenly false
+        :halign "top"
+        :valign "top"
+        (box  :orientation "h"
+                :class "searchapps-bar"
+                :space-evenly false
+                :halign "top"
+                :valign "top"
+            (label  :class "search-label" :text "")
+            (input  :class "search-bar" :onchange "py ~/.config/eww/scripts/search.py '{}'")
+        )
+        (literal  :halign "center"
+                    :valign "center"
+                    :class "app-container"
+                    :content search_listen
+        )
+    )
+)
+
+(defwidget powerbutton []
+      (box  :orientation "v"
+            :space-evenly true
+            :halign "center"
+            :valign "center"
+            :class "power-menu"
+            :spacing 25
+        (button :class "power-button" :style "font-size: 2rem" :onclick "slock" "")
+        (button :class "power-button" :style "font-size: 2rem" :onclick "systemctl reboot" "ﰇ")
+        (button :class "power-button-off" :style "font-size: 2rem" :onclick "systemctl poweroff" "")
+        (button :class "power-button" :style "font-size: 2rem" :onclick "systemctl suspend" "")
+        (button :class "power-button" :style "font-size: 2rem" :onclick "openbox --exit" "")
+      )
+  )
