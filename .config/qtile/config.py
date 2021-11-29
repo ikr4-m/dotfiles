@@ -151,7 +151,7 @@ Widget and Screen
 def get_monitor_length():
     output = subprocess.run(['xrandr'], stdout=subprocess.PIPE).stdout.decode('utf-8')
     output = output.split("\n")
-    output = [o for o in output if "connected" in o]
+    output = [o for o in output if " connected " in o]
     return len(output)
 
 widget_defaults = dict(
@@ -160,28 +160,52 @@ widget_defaults = dict(
     padding=3,
 )
 extension_defaults = widget_defaults.copy()
+bar_config = { "background": "#3b4252" }
+widget_config = {
+    "background": "#2E3440",
+    "padding": 5
+}
 screen_bottom = bar.Bar(
     [
-        widget.CurrentLayout(),
+        widget.CurrentLayout(**widget_config),
         widget.GroupBox(),
-        widget.Prompt(),
-        widget.WindowName(),
+        widget.Prompt(**widget_config),
+        widget.WindowName(**widget_config),
         widget.Chord(
             chords_colors={
                 'launch': ("#ff0000", "#ffffff"),
             },
             name_transform=lambda name: name.upper(),
         ),
-        widget.Volume(),
-        #widget.Systray(),
-        widget.Clock(format='%Y-%m-%d %a %I:%M %p'),
-        widget.QuickExit(),
+        #widget.Volume(),
+        widget.Systray(),
+        widget.Clock(format='%Y-%m-%d %a %I:%M %p', **widget_config),
+        #widget.QuickExit(),
     ],
-    24,
+    30,
+    **bar_config
 )
-screens = []
-for i in range(0, get_monitor_length()):
-    screens.append(Screen(bottom=screen_bottom))
+screens = [
+    Screen(bottom=screen_bottom),
+    #Screen(bottom=bar.Bar(
+    #    widget.GroupBox(),
+    #    widget.WindowName(),
+    #    widget.Clock()
+    #))
+]
+if get_monitor_length() > 1:
+    for i in range(1, get_monitor_length()):
+        screens.append(
+            Screen(bottom=bar.Bar(
+                [
+                    widget.CurrentLayout(**widget_config),
+                    widget.GroupBox(),
+                    widget.WindowName(**widget_config),
+                    widget.Clock()
+                ],
+                30
+            ))
+        )
 
 @hook.subscribe.startup_once
 def autostart():
