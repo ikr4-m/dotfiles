@@ -10,10 +10,10 @@ def get_query_desktop(query, limit=8):
 
     def map_desktop(s):
         s = s.split(":")
-        return [s[1][5:], "gtk-launch {app}".format(app=s[0])]
+        return [s[1][5:], "eww close mainmenu && gtk-launch {app}".format(app=s[0])]
 
     def map_bin(s):
-        return ["Execute '{app}'".format(app=s), "{app} &".format(app=s)]
+        return ["Execute '{app}'".format(app=s), "eww close mainmenu && {app} &".format(app=s)]
 
     app = []
 
