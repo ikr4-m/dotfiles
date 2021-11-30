@@ -9,7 +9,6 @@ from libqtile.lazy import lazy
 
 # Configuration here
 mod = "mod4"
-widget_show = True
 myTerm = "alacritty"
 myFileExplorer = "thunar"
 
@@ -157,53 +156,43 @@ def get_monitor_length():
     return len(output)
 
 widget_defaults = dict(
-    font='sans',
+    font='Arimo Nerd Font',
     fontsize=12,
     padding=3,
 )
 extension_defaults = widget_defaults.copy()
-bar_config = { "background": "#3b4252" }
-widget_config = {
-    "background": "#2E3440",
-    "padding": 5
-}
-screen_bottom = bar.Bar(
+bar_config = { "background": "#434C5E" }
+exbar_config = { "background": "#2E3440" }
+screen_main = bar.Bar(
     [
-        widget.CurrentLayout(**widget_config),
-        widget.GroupBox(),
-        widget.Prompt(**widget_config),
-        widget.WindowName(**widget_config),
+        widget.CurrentLayout(**exbar_config),
+        widget.GroupBox(foreground="#434C5E"),
+        widget.Prompt(**exbar_config),
+        widget.WindowName(**exbar_config),
         widget.Chord(
             chords_colors={
                 'launch': ("#ff0000", "#ffffff"),
             },
             name_transform=lambda name: name.upper(),
         ),
-        #widget.Volume(),
         widget.Systray(),
-        widget.Clock(format='%Y-%m-%d %a %I:%M %p', **widget_config),
-        #widget.QuickExit(),
+        widget.Clock(format='%Y-%m-%d %a, %I:%M %p', **exbar_config)
     ],
     30,
     **bar_config
 )
-screens = [
-    Screen(bottom=screen_bottom),
-    #Screen(bottom=bar.Bar(
-    #    widget.GroupBox(),
-    #    widget.WindowName(),
-    #    widget.Clock()
-    #))
-]
+screens = [ Screen(top=screen_main) ]
+
+# Autodetect multimonitor
 if get_monitor_length() > 1:
     for i in range(1, get_monitor_length()):
         screens.append(
-            Screen(bottom=bar.Bar(
+            Screen(top=bar.Bar(
                 [
-                    widget.CurrentLayout(**widget_config),
-                    widget.GroupBox(),
-                    widget.WindowName(**widget_config),
-                    widget.Clock()
+                    widget.CurrentLayout(**exbar_config),
+                    widget.GroupBox(foreground="#434C5E"),
+                    widget.WindowName(**exbar_config),
+                    widget.Clock(format='%a, %I:%M %p')
                 ],
                 30,
                 **bar_config
@@ -220,10 +209,6 @@ def autostart():
     """
     home = os.path.expanduser("~/.config/qtile/autostart.sh")
     subprocess.call([home])
-
-@hook.subscribe.startup
-def startup():
-    screen_bottom.show(widget_show)
 
 """
 Additional Configuration
