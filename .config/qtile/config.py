@@ -210,6 +210,9 @@ if get_monitor_length() > 1:
             ))
         )
 
+"""
+Hooks
+"""
 @hook.subscribe.startup_once
 def autostart():
     """
@@ -222,12 +225,15 @@ def autostart():
 def startup():
     screen_bottom.show(widget_show)
 
+"""
+Additional Configuration
+"""
 dgroups_key_binder = None
 dgroups_app_rules = []  # type: List
 follow_mouse_focus = True
 bring_front_click = False
 cursor_warp = False
-floating_layout = layout.Floating(float_rules=[
+floating_layout = layout.Floating(border_width=0, float_rules=[
     # Run the utility of `xprop` to see the wm class and name of an X client.
     *layout.Floating.default_float_rules,
     Match(wm_class='confirmreset'),  # gitk
