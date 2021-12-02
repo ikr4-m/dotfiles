@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # Compositor
-picom -b &
+picom -experimental-backends &
 
 # Notification daemon
 dunst -conf ~/.config/dunst/dunstrc-dark &

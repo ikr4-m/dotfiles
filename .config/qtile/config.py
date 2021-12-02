@@ -181,13 +181,13 @@ screen_main = bar.Bar(
     30,
     **bar_config
 )
-screens = [ Screen(top=screen_main) ]
+screens = [ Screen(bottom=screen_main) ]
 
 # Autodetect multimonitor
 if get_monitor_length() > 1:
     for i in range(1, get_monitor_length()):
         screens.append(
-            Screen(top=bar.Bar(
+            Screen(bottom=bar.Bar(
                 [
                     widget.CurrentLayout(**exbar_config),
                     widget.GroupBox(foreground="#434C5E"),

@@ -24,7 +24,7 @@
     :windowtype "dock"
     :focusable false
     :geometry (geometry :x "-2%"
-                        :y "5%"
+                        :y "3%"
                         :width "15%"
                         :anchor "top right")
     :stacking "bg"
@@ -38,7 +38,7 @@
     :windowtype "dock"
     :focusable false
     :geometry (geometry :x "2%"
-                        :y "5%"
+                        :y "3%"
                         :width "15%"
                         :anchor "top left")
     :stacking "bg"

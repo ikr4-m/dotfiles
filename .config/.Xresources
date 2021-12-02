@@ -1,6 +1,5 @@
-!! URxvt Appearance
-! ---
-URxvt.font:                       xft:Hack Nerd Font:size=8
+!! URxvt Appearance ! ---
+URxvt.font:                       xft:Hack Nerd Font:size=11
 URxvt.geometry:                   80x20
 URxvt.internalBorder:             5
 URxvt.cursorBlink:                true
