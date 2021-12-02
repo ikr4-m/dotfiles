@@ -27,11 +27,11 @@
 - Libs: [dxvk-bin](https://aur.archlinux.org/packages/dxvk-bin/)
 
 ### Dependency
-- feh -> Wallpaper
-- eww -> Plugin & DMenu Replacement
-- playerctl -> Media Controller
-- pamixer -> PulseAudio Mixer
-- brightnessctl -> Brightness Controller
-- dunst -> Notifier Replacement
-- xmenu -> Openbox "Right Click" Replacement
-- picom -> Compositor
+- [feh](https://github.com/derf/feh) -> Wallpaper
+- [eww](https://github.com/elkowar/eww) -> Plugin & DMenu Replacement
+- [playerctl](https://github.com/altdesktop/playerctl) -> Media Controller
+- [pamixer](https://github.com/cdemoulins/pamixer) -> PulseAudio Mixer
+- [brightnessctl](https://github.com/Hummer12007/brightnessctl) -> Brightness Controller
+- [dunst](https://github.com/dunst-project/dunst) -> Notifier Daemon
+- [xmenu](https://github.com/phillbush/xmenu) -> X11 Menu Utility
+- [picom](https://github.com/yshui/picom) -> Compositor (Experimental)
