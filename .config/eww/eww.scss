@@ -39,32 +39,36 @@ window {
 }
 
 // searchapp widget
-.search-win {
-  background: $bg;
-  border: 3px solid $blue;
+.search {
+  &-win {
+    background: $bg;
+    border: 3px solid $blue;
+  }
+
+  &apps-bar {
+    color: $cyan;
+    font-size: 1.5rem;
+    margin: -3px;
+    padding: 1em;
+    background-color: $black-darker;
+    border: 3px solid $blue;
+  }
+
+  &-bar {
+    color: $cyan;
+    // width: 100%;
+    min-height: 3em;
+    min-width: 10em;
+  }
+
+  &-label {
+    font-family: "Iosevka";
+    font-size: 2rem;
+    font-weight: 700;
+    padding-right: 1rem;
+  }
 }
 
-.searchapps-bar {
-  color: $cyan;
-  font-size: 1.5rem;
-  margin: -3px;
-  padding: 1em;
-  background-color: $black-darker;
-  border: 3px solid $blue;
-}
-
-.search-bar {
-  color: $cyan;
-  // width: 100%;
-  min-height: 3em;
-  min-width: 10em;
-}
-.search-label {
-  font-family: "Iosevka";
-  font-size: 2rem;
-  font-weight: 700;
-  padding-right: 1rem;
-}
 .app-container {
   margin: -2px;
   font-size: 1.25rem;
@@ -77,34 +81,35 @@ window {
 }
 
 // powermenu widget
-
-.power-menu {
-  background: $bg;
-  border: 3px solid $blue;
-  padding: 2em 1em;
-  font-size: 1rem;
-}
-
-.power-button {
-  :hover {
-    background-color: $black-lighter;
+.power {
+  &-menu {
+    background: $bg;
+    border: 3px solid $blue;
+    padding: 2em 1em;
+    font-size: 1rem;
   }
 
-  border-radius: 50%;
-  padding: 1em;
-  color: $fg;
-  background-color: $black-light;
-}
+  &-button {
+    &:hover {
+      background-color: $black-lighter;
+    }
 
-.power-button-off {
-  :hover {
-    background-color: $orange;
+    border-radius: 50%;
+    padding: 1em;
+    color: $fg;
+    background-color: $black-light;
   }
 
-  border-radius: 50%;
-  padding: 1em;
-  color: $fg;
-  background-color: $red;
+  &-button-off {
+    &:hover {
+      background-color: $orange;
+    }
+
+    border-radius: 50%;
+    padding: 1em;
+    color: $fg;
+    background-color: $red;
+  }
 }
 
 /**
@@ -113,25 +118,57 @@ window {
 .widget {
   color: $fg;
   font-family: "Noto Sans";
+  $padding-layer1: 1rem;
+  $padding-layer2: 1rem;
 
-  &-system {
+  &-calendar {
     background: $bg;
-    padding: 1rem;
+    padding: $padding-layer1 2.5rem;
     border: 1px solid $blue;
-    border-radius: 20px;
+    border-radius: 15px;
   }
 
   &-clock {
     background: $bg;
-    padding: 2rem 3rem;
+    padding: 1rem 3rem;
     border: 1px solid $blue;
-    border-radius: 20px;
+    border-radius: 15px;
+  }
+
+  &-weather {
+    background: $bg;
+    padding: $padding-layer1 2.5rem;
+    margin: 0rem 0rem 0rem 1rem;
+    border: 1px solid $blue;
+    border-radius: 15px;
+  }
+
+  &-menu {
+    background: $bg;
+    padding: $padding-layer1 2.5rem;
+    border: 1px solid $blue;
+    border-radius: 15px;
   }
 
   &-uptime {
     background: $bg;
-    padding: 1.5rem 3rem;
+    padding: $padding-layer1 2.5rem;
+    margin: 0rem 1rem 0rem 0rem;
     border: 1px solid $blue;
-    border-radius: 20px;
+    border-radius: 15px;
   }
+}
+
+/**
+ * Music
+ */
+.music-box {
+  color: $fg;
+  padding: 0.6rem 0rem;
+  font-family: "Noto Sans";
+  border: 1px solid $blue;
+  background: $bg;
+  border-radius: 10px;
+  font-size: 1rem;
+  text-shadow: 3rem 3rem 3rem $bg;
 }

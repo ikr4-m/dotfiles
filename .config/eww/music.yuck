@@ -1,0 +1,18 @@
+; Poll for music
+(defpoll music_metadata :interval '3s' "playerctl --player=spotify,clementine,%any,%edge metadata --format \"{{ artist }} - {{ title }}\"")
+
+(defwidget wmusic []
+    (box :orientation "h"
+         :space-evenly false
+        (box :class "music-box"
+             :space-evenly false
+             :orientation "h"
+            (label :text "" :style "padding: 0rem 1rem")
+            )
+        (box :class "music-boxa"
+             :space-evenly false
+             :orientation "h"
+            (label :text music_metadata :style "padding: 0rem 1rem; font-size: 1.5rem;")
+            )
+        )
+    )

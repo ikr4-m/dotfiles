@@ -4,81 +4,137 @@
          :orientation "v"
          :spacing 20
          :space-evenly false
-        (widget-system)
+
+        ; Widget start here
+        (box :orientation "h"
+             :halign "center"
+             :space-evenly false
+            (widget-calendar)
+            (widget-weather)
+            )
+        (box :orientation "h"
+             :halign "center"
+             :space-evenly false
+            (widget-uptime)
+            (widget-menu)
+            )
         (widget-clock)
-        (widget-uptime)
         )
     )
 
-; System widget
-(defwidget widget-system []
-    (box :class "widget-system"
-         :orientation "v"
-         :space-evenly false
-        (box :space-evenly true
-             :orientation "h"
+
+; Pollers for Calendar Widget
+(defpoll date_date :interval "1s" "date '+%d'")
+(defpoll date_month :interval "1m" "date '+%b'")
+
+; Calendar widget
+(defwidget widget-calendar []
+    (button :onclick "osmo &"
+        (box :class "widget-calendar"
+             :space-evenly false
+             :orientation "v"
              :valign "center"
-            (label :text "Ini CPU")
-            (label :text "Ini RAM")
+            (box :space-evenly true
+                 :halign "center"
+                 :style "margin: 0px 0px -7px 0px"
+                (label :text date_date :style "font-size: 3rem")
+                )
+            (box :space-evenly true
+                 :halign "center"
+                (label :text date_month :style "font-size: 1.5rem;")
+                )
+            )
+        )
+    )
+
+; Pollers for Calendar Widget
+(defpoll weather_icon :interval "5m" "~/.config/eww/scripts/weather_info.sh --icon")
+(defpoll weather_temp :interval "5m" "~/.config/eww/scripts/weather_info.sh --temp")
+(defpoll weather_hex :interval "5m" "~/.config/eww/scripts/weather_info.sh --hex")
+(defpoll weather_stat :interval "5m" "~/.config/eww/scripts/weather_info.sh --stat")
+
+; Weather widget
+(defwidget widget-weather []
+    (button :onclick "microsoft-edge-stable --open \"https://openweathermap.org/\""
+        (box :class "widget-weather"
+             :space-evenly false
+             :orientation "h"
+            (box :space-evenly false
+                 :halign "center"
+                (label :text weather_icon :style "font-size: 4rem; color: ${weather_hex}")
+                )
+            (box :space-evenly false
+                 :orientation "v"
+                 :valign "center"
+                (box :orientation "h" :halign "start" (label :text weather_temp :style "font-size: 1.5rem;"))
+                (box :orientation "h" :halign "start" (label :text weather_stat :style "font-size: 1.5rem;"))
+                )
+            )
+        )
+    )
+
+; Widget for menu
+(defwidget widget-menu []
+    (box :class "widget-menu"
+         :space-evenly false
+         :orientation "v"
+         :valign "center"
+        (button :onclick "eww open mainmenu"
+            (box :space-evenly true
+                 :halign "center"
+                 :style "margin: 0px 0px -7px 0px"
+                (label :text "" :style "font-size: 2.25rem"))
             )
         (box :space-evenly true
-             :orientation "h"
+             :halign "center"
+            (label :text "" :style "font-size: 2.25rem;")
+            )
+        )
+    )
+
+; Pollers for uptime widget
+(defpoll uptime_hours :interval "5s" "uptime -p | awk '{print $2 \" \" $3}' | sed 's/,//g'")
+(defpoll uptime_minutes :interval "5s" "uptime -p | awk '{print $4 \" \" $5}'")
+
+; Widget for uptime
+(defwidget widget-uptime []
+    (box :class "widget-uptime"
+         :space-evenly false
+         :orientation "h"
+        (box :space-evenly false
+             :halign "center"
+            (label :text "" :style "font-size: 4rem; padding: 0rem 2.8rem 0rem 0rem;")
+            )
+        (box :space-evenly false
+             :orientation "v"
              :valign "center"
-            (label :text "Ini Bright")
-            (label :text "Ini Vol")
+            (box :orientation "h" :halign "start" (label :text uptime_hours :style "font-size: 1.5rem;"))
+            (box :orientation "h" :halign "start" (label :text uptime_minutes :style "font-size: 1.5rem;"))
             )
         )
     )
 
 ; Pollers for Clock Widget
-(defpoll date_clock :interval "1s" "date '+%R'")
-(defpoll date_full :interval "1m" "date '+%A, %e %B %G'")
+(defpoll date_clock :interval "1s" "date '+%I:%M'")
+(defpoll date_day :interval "1m" "date '+%A'")
+(defpoll date_ampm :interval "1m" "date +'%H' | awk '{print ($1 > 12) ? \"pm\" : \"am\"}'")
 
 ; Variable button or something
 (defvar app_calendar "osmo &")
 
 ; Clock widget
 (defwidget widget-clock []
-    (button :onclick app_calendar
-        (box :class "widget-clock"
-             :space-evenly false
-             :orientation "v"
-            (box :space-evenly false
-                 :halign "center"
-                (label :text date_clock :style "font-size: 5.5rem")
-                )
-            (box :space-evenly false
-                 :halign "center"
-                 :style "padding: 10px 1px 1px 1px;"
-                (label :text date_full :style "font-size: 1.5rem;")
-                )
-            )
-        )
-    )
-
-; Pollers for uptime widget
-(defpoll uptime_hours :interval "5s" "uptime -p | awk '{print ($2 > 1) ? $2 \" hours\" : $2 \" hour\"}'")
-(defpoll uptime_minutes :interval "5s" "uptime -p | awk '{print ($2 > 1) ? $4 \" minutes\" : $2 \" minute\"}'")
-
-; Uptime widget
-(defwidget widget-uptime []
-    (box :class "widget-uptime"
+    (box :class "widget-clock"
          :space-evenly false
-        (box :space-evenly true
-             :valign "center"
+         :orientation "v"
+         :valign "center"
+         ;:halign "center"
+        (box :orientation "h"
              :halign "center"
-            (box :space-evenly false
-                 :orientation "v"
-                 :halign "center"
-                 :valign "center"
-                (label :text "" :style "font-size: 6rem")
-                )
-            (box :space-evenly true
-                 :orientation "v"
-                 :valign "center"
-                (label :text uptime_hours :style "font-size: 1.7rem;")
-                (label :text uptime_minutes :style "font-size: 1.7rem;")
-                )
+             :space-evenly false
+            (label :text date_clock :style "font-size: 6rem")
+            (label :text date_ampm :style "font-size: 3rem; margin: 1.5rem 0px 0px 2rem;")
             )
+        (label :text date_day :style "font-size: 2.1rem; margin: 0px 0px 1rem 0px")
         )
     )

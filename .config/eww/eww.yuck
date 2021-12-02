@@ -1,6 +1,7 @@
 ; Import all window
 (include "mainmenu.yuck")
 (include "widget.yuck")
+(include "music.yuck")
 
 ; Mainmenu
 (defwindow mainmenu
@@ -22,10 +23,24 @@
     :monitor 0
     :windowtype "dock"
     :focusable false
-    :geometry (geometry :x "-3%"
-                        :y "3%"
+    :geometry (geometry :x "-2%"
+                        :y "5%"
                         :width "15%"
                         :anchor "top right")
     :stacking "bg"
     (wwidget)
+)
+
+; Music
+(defwindow music
+    :wm-ignore true
+    :monitor 0
+    :windowtype "dock"
+    :focusable false
+    :geometry (geometry :x "2%"
+                        :y "5%"
+                        :width "15%"
+                        :anchor "top left")
+    :stacking "bg"
+    (wmusic)
 )

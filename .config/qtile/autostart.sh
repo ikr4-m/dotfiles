@@ -1,8 +1,5 @@
 #!/bin/sh
 
-# Feh
-feh --bg-scale ~/.wallpaper/default.jpg &
-
 # Compositor
 picom -b &
 
@@ -19,5 +16,16 @@ xfsettingsd &
 # Wifi Applet
 nm-applet &
 
+# Optimus Manager applet
+optimus-manager-qt &
+
 # EWW Daemon
 eww daemon
+eww open widget
+eww open music
+
+# Feh
+feh --bg-scale ~/.wallpaper/default.jpg &
+
+# Alacritty (First Workspace)
+alacritty -o font.size=10 &
