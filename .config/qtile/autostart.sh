@@ -1,8 +1,5 @@
 #!/bin/sh
 
-# Compositor
-picom -experimental-backends &
-
 # Notification daemon
 dunst -conf ~/.config/dunst/dunstrc-dark &
 
@@ -29,3 +26,7 @@ feh --bg-scale ~/.wallpaper/default.jpg &
 
 # Alacritty (First Workspace)
 alacritty -o font.size=10 &
+
+# Compositor
+#picom -experimental-backends &
+picom -b &
