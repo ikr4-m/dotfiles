@@ -3,6 +3,10 @@
 # Notification daemon
 dunst -conf ~/.config/dunst/dunstrc-dark &
 
+# Compositor
+#picom -experimental-backends &
+picom -b &
+
 # XFCE4 Helper
 xfce4-power-manager &
 start-pulseaudio-x11 &
@@ -26,7 +30,3 @@ feh --bg-scale ~/.wallpaper/default.jpg &
 
 # Alacritty (First Workspace)
 alacritty -o font.size=10 &
-
-# Compositor
-#picom -experimental-backends &
-picom -b &
