@@ -8,6 +8,15 @@ dotnet new --list
 # Make new project
 dotnet new sln -o <ProjName>        # Make SLN
 dotnet new console -o <ProjName>    # Make console app
+
+# Add package
+dotnet add package <NuGetPackage>
+
+# List package
+dotnet list package
+
+# Remove package
+dotnet remove package <NuGetPackage>
 ```
 
 ## Running App
