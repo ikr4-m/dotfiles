@@ -1,6 +1,5 @@
-### OS
-- Linux : Manjaro
-- Windows : Windows 10 20H2.746
+# .dotfiles
+List of all my UNIX configuration.
 
 ### Fonts
 - [Hack Nerd Font](https://www.nerdfonts.com)

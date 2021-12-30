@@ -2,6 +2,8 @@
 	"explorer.icon.enableNerdfont": true,
 	"rpc.workspaceElapsedTime": true,
 	"rpc.enabled": true,
+	"omnisharp.trace.server": "verbose",
+	"omnisharp.debug.server": true,
 	"languageserver": {
 		"python": {
 			"command": "py",
