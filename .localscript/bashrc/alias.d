@@ -1,4 +1,5 @@
-alias la="ls -lAh"
+alias l="ls -l"
+alias ll="ls -lAh"
 alias rimraf="rm -rf"
 alias cpr="cp -r"
 
