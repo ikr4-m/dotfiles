@@ -1,5 +1,8 @@
 https://docs.microsoft.com/en-us/dotnet/core/tools/
 
+## CSProj Config
+https://docs.microsoft.com/en-us/visualstudio/msbuild/itemgroup-element-msbuild
+
 ## Making Project
 ```bash
 # List template
