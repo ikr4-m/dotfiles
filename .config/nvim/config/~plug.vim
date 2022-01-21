@@ -2,8 +2,6 @@ call plug#begin('~/.vim/plug')
 
 " airline
 Plug 'vim-airline/vim-airline'
-" vim-startify
-Plug 'mhinz/vim-startify'
 " vim.coc
 Plug 'neoclide/coc.nvim', { 'branch': 'release' }
 " vim-devicons
