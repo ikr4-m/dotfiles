@@ -34,11 +34,6 @@ set smartindent
 set smarttab
 set noswapfile
 
-" Mod theme
-hi Normal ctermfg=253 ctermbg=NONE
-hi StatusLine ctermfg=67 ctermbg=NONE
-hi StatusLineNC ctermfg=67 ctermbg=NONE
-
 " hide number in terminal
 if has("nvim")
   autocmd TermOpen * setlocal nonumber norelativenumber

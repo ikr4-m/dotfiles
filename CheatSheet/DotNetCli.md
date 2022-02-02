@@ -14,15 +14,6 @@ dotnet new console -o <ProjName>    # Make console app
 
 # Add CS Project to SLN
 dotnet sln <SLNFile> add path\to\file.csproj
-
-# Add package
-dotnet add package <NuGetPackage>
-
-# List package
-dotnet list package
-
-# Remove package
-dotnet remove package <NuGetPackage>
 ```
 
 ## Running App
@@ -31,8 +22,8 @@ dotnet remove package <NuGetPackage>
 dotnet run
 dotnet run -p path\to\csproj.csproj
 
-# Run csproj without compiling
-dotnet run --no-build
+# Release csproj
+dotnet build -c Release
 
 # Run test build
 dotnet test
@@ -44,12 +35,18 @@ dotnet watch -- run -p path\to\csproj.csproj
 
 ## Managing Project
 ```bash
-# Add csproj to sln
-dotnet sln add path\to\csproj.csproj
-
 # Restore sln
 dotnet restore                      # Execute in sln folder
 
 # Build sln
 dotnet build sln.sln
+
+# Add package
+dotnet add package <NuGetPackage>
+
+# List package
+dotnet list package
+
+# Remove package
+dotnet remove package <NuGetPackage>
 ```
