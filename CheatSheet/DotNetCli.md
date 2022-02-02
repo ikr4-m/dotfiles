@@ -12,6 +12,9 @@ dotnet new --list
 dotnet new sln -o <ProjName>        # Make SLN
 dotnet new console -o <ProjName>    # Make console app
 
+# Add CS Project to SLN
+dotnet sln <SLNFile> add path\to\file.csproj
+
 # Add package
 dotnet add package <NuGetPackage>
 
