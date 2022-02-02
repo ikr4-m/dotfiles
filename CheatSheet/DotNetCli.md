@@ -38,9 +38,6 @@ dotnet watch -- run -p path\to\csproj.csproj
 # Restore sln
 dotnet restore                      # Execute in sln folder
 
-# Build sln
-dotnet build sln.sln
-
 # Add package
 dotnet add package <NuGetPackage>
 
@@ -49,4 +46,7 @@ dotnet list package
 
 # Remove package
 dotnet remove package <NuGetPackage>
+
+# Add P2P Reference
+dotnet add reference path\to\csproj.csproj
 ```
