@@ -20,7 +20,7 @@ dotnet sln <SLNFile> add path\to\file.csproj
 ```bash
 # Run csproj
 dotnet run
-dotnet run -p path\to\csproj.csproj
+dotnet run --project path\to\csproj.csproj
 
 # Release csproj
 dotnet build -c Release
