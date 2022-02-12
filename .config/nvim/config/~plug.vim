@@ -19,6 +19,11 @@ Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && npm i' }
 " yuck
 Plug 'elkowar/yuck.vim'
 
+" Omnisharp
+Plug 'OmniSharp/omnisharp-vim'
+" Ale
+Plug 'dense-analysis/ale'
+
 " Rest of theme here
 " shades-of-purple
 Plug 'Rigellute/shades-of-purple.vim'

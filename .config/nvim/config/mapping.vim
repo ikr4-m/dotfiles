@@ -73,3 +73,5 @@ nmap <space>s :mks! .vimsession<CR>
 " Search and replace
 nmap <space>r :%s /
 
+" Special for CS, omnisharp config
+autocmd FileType cs nnoremap <silent> K :OmniSharpDocumentation<CR>

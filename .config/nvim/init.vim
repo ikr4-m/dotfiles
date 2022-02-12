@@ -6,6 +6,7 @@ let config_list = [
   \ 'theme.vim',
   \ 'airline.vim',
   \ 'setter.vim',
+  \ 'ale.vim',
   \ 'theme_sonokai.vim'
   \ ]
 
