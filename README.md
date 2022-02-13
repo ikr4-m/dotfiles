@@ -13,7 +13,8 @@ List of all my UNIX configuration.
 - [Primary Signature](https://meta.sr.ht/~munn.pgp)
 
 ### Main App
-- Shell : [ohmyzsh](https://ohmyz.sh/) with [zsh-syntax-highlighting](https://github.com/zsh-users/zsh-syntax-highlighting)  
+- Shell : [zsh](https://github.com/zsh-users/zsh)
+- Shell Plugin: [zsh-autocomplete](https://github.com/marlonrichert/zsh-autocomplete), [zsh-syntax-hightlighting](https://github.com/zsh-users/zsh-syntax-highlighting/)
 - Terminal : [alacritty](https://github.com/alacritty/alacritty)  / [urxvt](https://github.com/exg/rxvt-unicode)
 - Text Editor : [vim](https://www.vim.org/) & [neovim](https://neovim.io/)
 - Terminal Multiplexer : [tmux](https://github.com/tmux/tmux)
