@@ -34,6 +34,9 @@ set smartindent
 set smarttab
 set noswapfile
 
+" fixing <C-v> in wsl
+nmap <Leader>v <C-v>
+
 " hide number in terminal
 if has("nvim")
   autocmd TermOpen * setlocal nonumber norelativenumber

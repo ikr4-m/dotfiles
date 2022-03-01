@@ -4,6 +4,8 @@ nnoremap <space>e :CocCommand explorer<CR>
 nnoremap <space>d :CocCommand diagnostic<CR>
 " fixing X can cut
 map x "_d<CR>
+" fixing <C-v> in wsl
+nmap <Leader>v <C-v>
 " Escape from terminal
 tmap <Esc> <C-\><C-n>
 " Resize vertical window
