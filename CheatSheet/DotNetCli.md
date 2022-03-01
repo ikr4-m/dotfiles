@@ -50,3 +50,21 @@ dotnet remove package <NuGetPackage>
 # Add P2P Reference
 dotnet add reference path\to\csproj.csproj
 ```
+
+## Hot Reload
+```bash
+# Download dotnet-install script
+wget "https://dot.net/v1/dotnet-install.sh"
+
+# Move script to /usr/bin
+sudo mv dotnet-install.sh /usr/bin/dotnet-install
+
+# Check sdks location
+dotnet --list-sdks
+
+# Install ASP.NET Runtime (Install dir for Arch based)
+sudo dotnet-install --install-dir /usr/share/dotnet -version latest --runtime aspnetcore
+
+# Check is runtime installed
+dotnet --info             # Check in .NET runtimes installed region
+```
