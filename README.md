@@ -13,7 +13,7 @@ List of all my UNIX configuration.
 - [Primary Signature](https://meta.sr.ht/~munn.pgp)
 
 ### Main App
-- Shell : [zsh](https://github.com/zsh-users/zsh)
+- Shell : [zsh](https://github.com/zsh-users/zsh) with [powerlevel10k](https://github.com/romkatv/powerlevel10k)
 - Shell Plugin: [zsh-autocomplete](https://github.com/marlonrichert/zsh-autocomplete), [zsh-syntax-hightlighting](https://github.com/zsh-users/zsh-syntax-highlighting/)
 - Terminal : [alacritty](https://github.com/alacritty/alacritty)  / [urxvt](https://github.com/exg/rxvt-unicode)
 - Text Editor : [vim](https://www.vim.org/) & [neovim](https://neovim.io/)
