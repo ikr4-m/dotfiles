@@ -31,5 +31,14 @@ if test -r /etc/profile; then
 	. /etc/profile
 fi
 
+# Constant Variable here
+IP_ROUTE=$(ip route list default | awk '{print $3}')
+IP_SERVER=$(ip addr show eth0 | grep "inet\b" | awk '{print $2}' | cut -d/ -f1)
+
+# Insert important command here
+# Make Null Output so FFMPEG can stream into it
+pactl load-module module-null-sink sink_name=remote
+ffmpeg -f pulse -i "remote.monitor" -ac 2 -acodec pcm_s16le -ar 48000 -f s16le "udp://${IP_ROUTE}:18181" &
+
 # Execute ~/.xrdpinit
 ~/.xrdpinit
