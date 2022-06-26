@@ -1,0 +1,20 @@
+#!/bin/sh
+# Uncomment if you want to using it
+
+##########
+# Desktop Environment
+
+# KDE
+#startplasma-x11
+
+# XFCE
+#startxfce4
+
+##########
+# Window Manager
+
+# Awesome
+# awesome
+
+# Qtile
+# qtile
