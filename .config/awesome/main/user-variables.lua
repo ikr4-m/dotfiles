@@ -7,7 +7,7 @@ local home = os.getenv("HOME")
 local _M = {
   -- This is used later as the default terminal and editor to run.
   -- terminal = "xterm",
-  terminal = "xfce4-terminal",
+  terminal = "konsole",
 
   -- Default modkey.
   -- Usually, Mod4 is the key with a logo between Control and Alt.
@@ -17,7 +17,7 @@ local _M = {
   modkey = "Mod4",
 
   -- user defined wallpaper
-  wallpaper = home .. "/dotfiles/.wallpaper/default.jpg",
+  wallpaper = home .. "/dotfiles/.wallpaper/misaki_nordic.png",
 
   -- Enable/disable statusbar
   statusbar = true,
