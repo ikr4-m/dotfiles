@@ -11,7 +11,7 @@ You are completely responsible for your hardware and software. This guide makes 
 - https://gist.github.com/Misairu-G/616f7b2756c488148b7309addc940b28
 
 # Story Behind This Thing
-I'm using gaming laptop with linux for working but I still want to be a "gamers". There's some limitation when I gaming in Linux especially the **Anti Cheat** that cannot be used with Proton. The same goes for productive apps like Adobe Premiere/After Effect or Microsoft Edge that 100% not compatible with Wine.
+I'm using gaming laptop with linux for working but I still want to be a "gamers". There's some limitation when I gaming in Linux especially the **Anti Cheat** that cannot be used with Proton. The same goes for productive apps like Adobe Premiere/After Effect or Microsoft Office that 100% not compatible with Wine.
 
 *"Why not dual boot?"*
 
