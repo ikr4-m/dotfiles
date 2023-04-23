@@ -29,6 +29,8 @@ Plug 'dense-analysis/ale'
 Plug 'Rigellute/shades-of-purple.vim'
 " Sonokai
 Plug 'sainnhe/sonokai'
+" Nord
+Plug 'nordtheme/vim'
 
 call plug#end()
 

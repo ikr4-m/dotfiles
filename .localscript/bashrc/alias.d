@@ -12,3 +12,6 @@ alias genieup="$HOME/dotfiles/.localscript/bashrc/exec/genie_start.sh up"
 alias geniedown="$HOME/dotfiles/.localscript/bashrc/exec/genie_start.sh down"
 alias genieshell="$HOME/dotfiles/.localscript/bashrc/exec/genie_start.sh shell"
 
+alias looking-glass="looking-glass-client -m 97 -kT -c DXGI"
+alias gpu-integrated="sudo envycontrol -s integrated"
+alias gpu-nvidia="sudo envycontrol -s nvidia"

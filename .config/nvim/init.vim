@@ -7,7 +7,7 @@ let config_list = [
   \ 'airline.vim',
   \ 'setter.vim',
   \ 'ale.vim',
-  \ 'theme_sonokai.vim'
+  \ 'theme_nord.vim'
   \ ]
 
 for files in config_list
