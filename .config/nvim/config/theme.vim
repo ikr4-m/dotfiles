@@ -1,5 +1,5 @@
 syntax on
-highlight LineNr ctermfg=white
+"highlight LineNr ctermfg=white
 
 " returns all modified files of the current git repo
 " `2>/dev/null` makes the command fail quietly, so that when we are not

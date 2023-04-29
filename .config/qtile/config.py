@@ -9,8 +9,8 @@ from libqtile.lazy import lazy
 
 # Configuration here
 mod = "mod4"
-myTerm = "alacritty"
-myFileExplorer = "thunar"
+myTerm = "konsole"
+myFileExplorer = "dolphin"
 
 """
 List shortcut keyboard
@@ -105,7 +105,7 @@ for i, name in enumerate(group_names):
     indx = str(i + 1)
     keys += [
         Key([mod], indx, lazy.group[name].toscreen()),
-        Key([mod, 'shift'], indx, lazy.window.togroup(name, switch_group=True))
+        Key([mod, 'shift'], indx, lazy.window.togroup(name, switch_group=False))
     ]
 
 """
