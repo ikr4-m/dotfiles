@@ -1,3 +1,5 @@
+#!/bin/sh
+
 alias l="ls -l"
 alias ll="ls -lAh"
 alias rimraf="rm -rf"
