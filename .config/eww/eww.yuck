@@ -2,6 +2,7 @@
 (include "mainmenu.yuck")
 (include "widget.yuck")
 (include "music.yuck")
+(include "launcher.yuck")
 
 ; Mainmenu
 (defwindow mainmenu
@@ -43,4 +44,18 @@
                         :anchor "top left")
     :stacking "bg"
     (wmusic)
+)
+
+; Launcher
+(defwindow launcher
+    :wm-ignore: true
+    :monitor 0
+    :windowtype "dialog"
+    :focusable true
+    :geometry (geometry :x "0px"
+                        :y "0px"
+                        :width "15%"
+                        :height "50%"
+                        :anchor "center")
+    (wlauncher)
 )

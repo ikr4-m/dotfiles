@@ -1,0 +1,30 @@
+; Main container widget
+(defwidget wlauncher []
+    (eventbox :onhoverlost "eww close launcher"
+      	(box :orientation "h"
+        	:space-evenly false
+            :halign "center"
+            :class "main-container"
+            :spacing 50
+        (launchermenu)
+      )
+    )
+  )
+
+; Pollers for list mode
+(defpoll mode_listen :interval "1m" "py ~/.config/eww/scripts/select_mode.py")
+
+; Mode widget
+(defwidget launchermenu []
+    (box :orientation "v"
+        :class "search-win"
+        :space-evenly false
+        :halign "top"
+        :valign "top"
+		(literal :halign "center"
+			:valign "center"
+			:class "app-container"
+			:content mode_listen
+		)
+    )
+)
