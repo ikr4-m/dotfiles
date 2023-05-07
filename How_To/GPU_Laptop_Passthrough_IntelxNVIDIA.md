@@ -6,6 +6,10 @@
 # Disclaimer
 You are completely responsible for your hardware and software. This guide makes no guarentees that the process will work for you, or will not void your waranty on various parts or break your computer in some way. Everything from here on out is at your own risk.
 
+This tutorial is for laptop that iGPU is still connected to External Monitor/Dummy HDMI. If your laptop's dGPU connected to External Monitor/Dummy HDMI, this tutorial is not for you.
+
+![2nd_monitor](./img/igpu_external_monitor.png)
+
 # References
 - https://lantian.pub/en/article/modify-computer/laptop-intel-nvidia-optimus-passthrough.lantian/
 - https://github.com/joeknock90/Single-GPU-Passthrough

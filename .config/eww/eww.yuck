@@ -22,13 +22,13 @@
 (defwindow widget
     :wm-ignore true
     :monitor 0
-    :windowtype "dock"
+    :windowtype "desktop"
     :focusable false
-    :geometry (geometry :x "-2%"
-                        :y "3%"
+    :geometry (geometry :x "-78%"
+                        :y "5%"
                         :width "15%"
                         :anchor "top right")
-    :stacking "bg"
+    :stacking "fg"
     (wwidget)
 )
 
