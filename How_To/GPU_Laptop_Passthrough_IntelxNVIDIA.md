@@ -1,5 +1,6 @@
 # How To: MUXless GPU Passthrough (NVIDIA x Intel Edition)
 *Yeah, it's one year and I can passthrough this...*
+
 ![vroom](./img/vroom.jpg)
 
 # Disclaimer
@@ -116,14 +117,21 @@ sudo envycontrol -s nvidia
 ```
 And make it sure your GPU using nvidia kernel after rebooting.
 
+Note2: *[Check this out](https://github.com/thatismunn/dotfiles/blob/46cef8ccd5be7096f485c3e650d281f4ec0a5bcc/.localscript/bashrc/alias.d#L17-L19), maybe you can follow my ~~lazy ideas~~.*
+
 ## Install KVM
-You can follow the instruction for installation VM from [BlandManStudios video](https://youtu.be/eTWf5D092VY?t=468). I'll provide my hooks script below.
+You can follow the instruction for installation VM from [BlandManStudios video](https://youtu.be/eTWf5D092VY?t=468). Some people don't recommend this video because giving bad information or something. But if you want to see how to install an OS to QEMU, I think you can follow his tutorial.
+
+For QEMU Hooks, here is some references that I use for my setup. **Don't copy-paste my hooks because maybe my scene is not same as you.**
 
 `prepare/begin/start.sh`
 ```sh
 #!/bin/bash
 # Helpful to read output when debugging
 set -x
+
+# Stop Cloudflare WARP Service
+systemctl stop warp-svc
 
 # Unbind VTconsole
 echo 0 > /sys/class/vtconsole/vtcon0/bind
@@ -143,6 +151,9 @@ modprobe vfio-pci
 #!/bin/bash
 set -x
 
+# Start Cloudflare WARP Service
+systemctl start warp-svc
+
 # Re-Bind GPU to Nvidia Driver
 virsh nodedev-reattach pci_0000_01_00_1
 
@@ -156,7 +167,7 @@ After you install VM. Don't forget to install virtio-driver and spice-guest-tool
 You can follow the installation for setup IVSHMEM and KVM Permission from [Looking Glass wiki](https://looking-glass.io/docs/B6/install/) here. Here's some arguments reference to launch looking glass with my scheme:
 ```sh
 # Launching Looking Glass with changing ScrollLock button to RightCtrl
-looking-glass-client -m 97 -kT -c DXGI
+looking-glass-client -m 97 -c DXGI
 ```
 
 ## [OPTIONAL] VirtIO FS
