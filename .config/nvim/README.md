@@ -36,4 +36,5 @@ You can change it in `init.vim` and restart vim/re-source `init.vim`.
 ![Sonokai](./screenshot/sonokai.png)
 - shades_of_purple
 ![shades_of_purple](./screenshot/shades_of_purples.png)
-
+- Nord
+![nord](./screenshot/nord.png)
