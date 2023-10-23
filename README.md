@@ -8,10 +8,6 @@ List of all my UNIX configuration.
 - [Noto Color Emoji](https://github.com/googlefonts/noto-emoji)
 - [Google Material](https://github.com/google/material-design-icons)
 
-### Keys
-- [SSH Public Key](https://meta.sr.ht/~munn.keys)
-- [Primary Signature](https://meta.sr.ht/~munn.pgp)
-
 ### Main App
 - Shell : [zsh](https://github.com/zsh-users/zsh) with [powerlevel10k](https://github.com/romkatv/powerlevel10k)
 - Shell Plugin: [zsh-autocomplete](https://github.com/marlonrichert/zsh-autocomplete), [zsh-syntax-hightlighting](https://github.com/zsh-users/zsh-syntax-highlighting/)

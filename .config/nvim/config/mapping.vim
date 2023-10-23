@@ -59,6 +59,12 @@ function! s:show_documentation()
     execute '!' . &keywordprg . " " . expand('<cword>')
   endif
 endfunction
+" Use <c-space> to trigger completion
+if has('nvim')
+  inoremap <silent><expr> <c-space> coc#refresh()
+else
+  inoremap <silent><expr> <c-@> coc#refresh()
+endif
 " VScode Ctrl+D like
 xmap <silent> <C-d> <Plug>(coc-cursors-range)
 nmap <expr> <silent> <C-d> <SID>select_current_word()

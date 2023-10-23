@@ -1,7 +1,7 @@
 #!/bin/sh
 
-alias l="ls -l"
-alias ll="ls -lAh"
+alias l="exa -l --icons"
+alias ll="exa -lAh --icons"
 alias rimraf="rm -rf"
 alias cpr="cp -r"
 
@@ -17,3 +17,6 @@ alias genieshell="$HOME/dotfiles/.localscript/bashrc/exec/genie_start.sh shell"
 alias looking-glass="looking-glass-client -m 97 -kT -c DXGI"
 alias gpu-integrated="sudo envycontrol -s integrated"
 alias gpu-nvidia="sudo envycontrol -s nvidia"
+
+alias nix-shell="nix-shell --command \"zsh\""
+alias nix-prune="nix-collect-garbage -d"
