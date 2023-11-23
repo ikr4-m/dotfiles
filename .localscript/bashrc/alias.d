@@ -18,5 +18,4 @@ alias looking-glass="looking-glass-client -m 97 -kT -c DXGI"
 alias gpu-integrated="sudo envycontrol -s integrated"
 alias gpu-nvidia="sudo envycontrol -s nvidia"
 
-alias nix-shell="nix-shell --command \"zsh\""
 alias nix-prune="nix-collect-garbage -d"
