@@ -1,7 +1,7 @@
 call plug#begin('~/.vim/plug')
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'neoclide/coc.nvim' 
-Plug 'lucasprag/simpleblack' 
+Plug 'nordtheme/vim'
 call plug#end()
 
 " make vim startup more faster
@@ -15,7 +15,9 @@ set mouse=a
 set wrap!
 
 syntax on
-colorscheme simpleblack
+colorscheme nord
+let g:airline_theme='nord'
+set termguicolors
 highlight LineNr ctermfg=gray
 filetype plugin indent on
 set showtabline=2
