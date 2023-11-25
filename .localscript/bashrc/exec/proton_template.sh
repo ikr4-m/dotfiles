@@ -54,7 +54,5 @@ fi
 #REG_LOCATION_0="HKEY_CURRENT_USER\\Software\\illusion\\HoneySelect2\\HoneySelect2"
 #add_reg_keys "${REG_LOCATION_0}" "INSTALLDIR" "Z:$(pwd | sed 's/\//\\/g')\\"
 
-# Run the application using Proton
-# Uncomment the command below to run the game with an NVIDIA graphics card if you use PRIME: https://wiki.archlinux.org/title/PRIME
-# prime-run \
-"${PROTON_BIN}" waitforexitandrun "$(pwd)/${EXE_FILE}"
+# Run the application using Proton and Nvidia
+__NV_PRIME_RENDER_OFFLOAD=1 __GLX_VENDOR_LIBRARY_NAME=nvidia __VK_LAYER_NV_optimus=NVIDIA_only "${PROTON_BIN}" waitforexitandrun "$(pwd)/${EXE_FILE}"
