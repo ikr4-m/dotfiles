@@ -1,21 +1,20 @@
 #!/bin/sh
 
-alias l="exa -l --icons"
-alias ll="exa -lAh --icons"
-alias rimraf="rm -rf"
-alias cpr="cp -r"
+# Prime Prefix
+alias nvprime="__NV_PRIME_RENDER_OFFLOAD=1 __GLX_VENDOR_LIBRARY_NAME=nvidia __VK_LAYER_NV_optimus=NVIDIA_only"
 
-alias wine32="WINEPREFIX=\"$HOME/.wine32/\" WINEARCH=win32"
-alias wine64="WINEPREFIX=\"$HOME/.wine/\""
-alias wine_nvidia_32="WINEPREFIX=\"$HOME/.wine32/\" WINEARCH=win32 prime-run wine"
-alias wine_nvidia_64="WINEPREFIX=\"$HOME/.wine/\" prime-run wine"
-
+# Genie Start
 alias genieup="$HOME/dotfiles/.localscript/bashrc/exec/genie_start.sh up"
 alias geniedown="$HOME/dotfiles/.localscript/bashrc/exec/genie_start.sh down"
 alias genieshell="$HOME/dotfiles/.localscript/bashrc/exec/genie_start.sh shell"
 
+# Looking Glass
+# TODO: Change gpu using GRUB2 Kernel Arguments
+# Example from Grubby:
+# grubby --update-kernel=ALL --args="nvidia-drm.modeset=1 modprobe.blacklist=nouveau" --remove-args="nvidia-drm.modeset=1 modprobe.blacklist=nouveau,nvidia,nvidia_drm,nvidia_uvm,nvidia_modeset,nvidia_current"
 alias looking-glass="looking-glass-client -m 97 -kT -c DXGI"
 alias gpu-integrated="sudo envycontrol -s integrated"
 alias gpu-nvidia="sudo envycontrol -s nvidia"
 
+# Nix Aliases
 alias nix-prune="nix-collect-garbage -d"
