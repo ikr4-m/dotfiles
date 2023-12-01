@@ -9,11 +9,9 @@ alias geniedown="$HOME/dotfiles/.localscript/bashrc/exec/genie_start.sh down"
 alias genieshell="$HOME/dotfiles/.localscript/bashrc/exec/genie_start.sh shell"
 
 # Looking Glass
-# TODO: Change gpu using GRUB2 Kernel Arguments
-# Example from Grubby:
-# grubby --update-kernel=ALL --args="nvidia-drm.modeset=1 modprobe.blacklist=nouveau" --remove-args="nvidia-drm.modeset=1 modprobe.blacklist=nouveau,nvidia,nvidia_drm,nvidia_uvm,nvidia_modeset,nvidia_current"
 alias looking-glass="looking-glass-client -m 97 -kT -c DXGI"
 alias gpu-integrated="sudo envycontrol -s integrated"
+alias gpu-hybrid="sudo envycontrol -s hybrid"
 alias gpu-nvidia="sudo envycontrol -s nvidia"
 
 # Nix Aliases
