@@ -16,3 +16,6 @@ alias gpu-nvidia="sudo envycontrol -s nvidia"
 
 # Nix Aliases
 alias nix-prune="nix-collect-garbage -d"
+
+# Neovide
+alias neovide="NEOVIDE_MULTIGRID=1 neovide ."
