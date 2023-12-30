@@ -1,5 +1,7 @@
 call plug#begin('~/.vim/plug')
-Plug 'ctrlpvim/ctrlp.vim'
+Plug 'rcarriga/nvim-notify'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.5' }
 Plug 'neoclide/coc.nvim' 
 Plug 'nordtheme/vim'
 call plug#end()
