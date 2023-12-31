@@ -57,6 +57,12 @@ require("lazy").setup({
     },
   },
   {
+    "goolord/alpha-nvim",
+    config = function ()
+      require("alpha").setup(require("alpha.themes.dashboard").config)
+    end
+  },
+  {
     "neoclide/coc.nvim",
     branch = "release",
     init = function()
@@ -117,7 +123,10 @@ require("lazy").setup({
   {
     "nvim-telescope/telescope.nvim",
     dependencies = {
-      'nvim-lua/plenary.nvim'
+      "nvim-lua/plenary.nvim",
+      "BurntSushi/ripgrep",
+      "nvim-telescope/telescope-fzf-native.nvim",
+      "sharkdp/fd",
     },
     init = function ()
       vim.cmd([[
@@ -165,7 +174,7 @@ require("lazy").setup({
   },
 
   --------------------------
-  -- QOL
+  -- LSP
   --------------------------
   "dense-analysis/ale",
   "elkowar/yuck.vim",
