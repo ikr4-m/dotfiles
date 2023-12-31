@@ -17,5 +17,6 @@ alias gpu-nvidia="sudo envycontrol -s nvidia"
 # Nix Aliases
 alias nix-prune="nix-collect-garbage -d"
 
-# Neovide
+# Vim
+alias vim="nvim"
 alias neovide="NEOVIDE_MULTIGRID=1 neovide ."
