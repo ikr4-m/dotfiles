@@ -47,14 +47,49 @@ require("lazy").setup({
   "folke/which-key.nvim",
   "folke/zen-mode.nvim",
   "sheerun/vim-polyglot",
-  "rcarriga/nvim-notify",
   "sindrets/diffview.nvim",
+  "j-hui/fidget.nvim",
   {
-    "preservim/nerdtree",
-    dependencies = { "ryanoasis/vim-devicons" },
-    keys = {
-      { "<Leader>e", ":NERDTreeToggle<CR>" }
-    },
+    "nanozuki/tabby.nvim",
+    dependencies = 'nvim-tree/nvim-web-devicons',
+    config = function ()
+      require('tabby.tabline').use_preset('active_wins_at_tail', {
+        nerdfont = true,
+        lualine_theme = 'nord',
+        tab_name = {
+          name_fallback = function(tabid)
+            return ''
+          end,
+        },
+        buf_name = {
+          mode = 'shorten'
+        }
+      })
+    end,
+    init = function ()
+      vim.o.showtabline = 2
+      vim.opt.sessionoptions = 'curdir,folds,globals,help,tabpages,terminal,winsize'
+
+      vim.api.nvim_set_keymap("n", "<leader>ta", ":$tabnew<CR>", { noremap = true })
+      vim.api.nvim_set_keymap("n", "<leader>tc", ":tabclose<CR>", { noremap = true })
+      vim.api.nvim_set_keymap("n", "<leader>to", ":tabonly<CR>", { noremap = true })
+      vim.api.nvim_set_keymap("n", "<leader>tn", ":tabn<CR>", { noremap = true })
+      vim.api.nvim_set_keymap("n", "<leader>tp", ":tabp<CR>", { noremap = true })
+      vim.api.nvim_set_keymap("n", "<leader>tmp", ":-tabmove<CR>", { noremap = true })
+      vim.api.nvim_set_keymap("n", "<leader>tmn", ":+tabmove<CR>", { noremap = true })
+    end
+  },
+  {
+    "nvim-tree/nvim-tree.lua",
+    dependencies = { 'nvim-tree/nvim-web-devicons' },
+    event = "VeryLazy",
+    config = function ()
+      require("nvim-tree").setup()
+    end,
+    init = function ()
+      vim.api.nvim_set_keymap("n", "<leader>e", ":NvimTreeToggle<CR>", { noremap = true })
+      vim.api.nvim_set_keymap("n", "<leader>fe", ":NvimTreeFocus<CR>", { noremap = true })
+    end
   },
   {
     "goolord/alpha-nvim",
@@ -151,7 +186,6 @@ require("lazy").setup({
     event = "VeryLazy",
     dependencies = {
       "MunifTanjim/nui.nvim",
-      "rcarriga/nvim-notify",
     },
     config = function ()
       require("noice").setup({
@@ -169,6 +203,9 @@ require("lazy").setup({
           inc_rename = false, -- enables an input dialog for inc-rename.nvim
           lsp_doc_border = false, -- add a border to hover docs and signature help
         },
+        cmdline = {
+          view = "cmdline",
+        },
       })
     end,
   },
@@ -182,6 +219,7 @@ require("lazy").setup({
     "OmniSharp/omnisharp-vim",
     init = function()
       vim.cmd("autocmd FileType cs nnoremap <silent> K :OmniSharpDocumentation<CR>")
+      vim.cmd("let g:OmniSharp_server_use_net6 = 1")
     end,
   },
 
@@ -199,7 +237,10 @@ vim.cmd([[
   set showmatch
   set showtabline=1
   set mouse=a
-  set tabstop=2 shiftwidth=2 softtabstop=2
+  set tabstop=2
+  set shiftwidth=2
+  set softtabstop=2
+  set expandtab
   set wrap!
   set cmdheight=1
   set hidden
@@ -207,7 +248,6 @@ vim.cmd([[
   set nowritebackup
   set updatetime=300
   set shortmess+=c
-  set expandtab
   set guifont=Hack\ Nerd\ Font:h8
 
   if has("patch-8.1.1564")
@@ -237,9 +277,6 @@ vim.cmd([[
   " Expand horizontal window
   nmap <space>w <C-w>_
   nmap <space>q <C-w>=
-
-  " Auto brace
-  inoremap { {}<Esc>i
 
   " Wrap
   nmap <space>p :set wrap<CR>
