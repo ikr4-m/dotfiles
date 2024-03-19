@@ -12,3 +12,5 @@ This is my primary (neo)vim configuration.
 
 ## Screenshot
 ![nord](./screenshot/nord.png)
+![nord2](./screenshot/nord_2.png)
+![nord3](./screenshot/nord_3.png)
