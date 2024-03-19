@@ -46,9 +46,14 @@ require("lazy").setup({
   --------------------------
   "folke/which-key.nvim",
   "folke/zen-mode.nvim",
-  "sheerun/vim-polyglot",
   "sindrets/diffview.nvim",
   "j-hui/fidget.nvim",
+  {
+    "sheerun/vim-polyglot",
+    init = function ()
+      vim.g.polyglot_disabled = { 'markdown' }
+    end,
+  },
   {
     "rcarriga/nvim-notify",
     config = function ()
@@ -187,24 +192,23 @@ require("lazy").setup({
   },
   {
     "hrsh7th/nvim-cmp",
-    event = "VeryLazy",
+    event = { "InsertEnter", "CmdlineEnter" },
     dependencies = {
       'hrsh7th/cmp-nvim-lsp',
       'hrsh7th/cmp-buffer',
       'hrsh7th/cmp-path',
       'hrsh7th/cmp-cmdline',
-      'hrsh7th/cmp-vsnip',
-      'hrsh7th/vim-vsnip',
       'hrsh7th/cmp-nvim-lsp-signature-help'
     },
     config = function ()
       local cmp = require('cmp')
+      local has_words_before = function()
+        unpack = unpack or table.unpack
+        local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+        return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match('%s') == nil
+      end
+
       cmp.setup({
-        snippet = {
-          expand = function(args)
-            vim.fn["vsnip#anonymous"](args.body)
-          end,
-        },
         window = {
           --completion = cmp.config.window.bordered(),
           documentation = cmp.config.window.bordered(),
@@ -218,8 +222,6 @@ require("lazy").setup({
           ["<Tab>"] = cmp.mapping(function(fallback)
             if cmp.visible() then
               cmp.select_next_item()
-            elseif vim.fn["vsnip#available"](1) == 1 then
-              feedkey("<Plug>(vsnip-expand-or-jump)", "")
             elseif has_words_before() then
               cmp.complete()
             else
@@ -229,14 +231,11 @@ require("lazy").setup({
           ["<S-Tab>"] = cmp.mapping(function()
             if cmp.visible() then
               cmp.select_prev_item()
-            elseif vim.fn["vsnip#jumpable"](-1) == 1 then
-              feedkey("<Plug>(vsnip-jump-prev)", "")
             end
           end, { "i", "s" }),
         }),
         sources = cmp.config.sources({
           { name = 'nvim_lsp' },
-          { name = 'vsnip' },
           { name = 'nvim_lsp_signature_help' },
         }, {
           { name = 'buffer' },
