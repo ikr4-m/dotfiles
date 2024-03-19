@@ -50,6 +50,15 @@ require("lazy").setup({
   "sindrets/diffview.nvim",
   "j-hui/fidget.nvim",
   {
+    "rcarriga/nvim-notify",
+    config = function ()
+      require('notify').setup({
+        timeout = 3000,
+        max_width = 60,
+      })
+    end,
+  },
+  {
     "nanozuki/tabby.nvim",
     dependencies = 'nvim-tree/nvim-web-devicons',
     config = function ()
@@ -169,6 +178,7 @@ require("lazy").setup({
         nnoremap <Leader>fg <cmd>Telescope live_grep<cr>
         nnoremap <Leader>fb <cmd>Telescope buffers<cr>
         nnoremap <Leader>fh <cmd>Telescope help_tags<cr>
+        nnoremap <Leader>fn <cmd>Telescope notify<cr>
       ]])
     end,
   },
@@ -204,7 +214,7 @@ require("lazy").setup({
           lsp_doc_border = false, -- add a border to hover docs and signature help
         },
         cmdline = {
-          view = "cmdline",
+          view = "hover",
         },
       })
     end,
@@ -213,7 +223,7 @@ require("lazy").setup({
   --------------------------
   -- LSP
   --------------------------
-  "dense-analysis/ale",
+  --"dense-analysis/ale",
   "elkowar/yuck.vim",
   {
     "OmniSharp/omnisharp-vim",
