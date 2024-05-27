@@ -185,7 +185,7 @@ require("lazy").setup({
           lsp_doc_border = false, -- add a border to hover docs and signature help
         },
         cmdline = {
-          view = "hover",
+          view = "cmdline_popup",
         },
       })
     end,
@@ -208,6 +208,15 @@ require("lazy").setup({
       -- JavaScript
       lspconfig.tsserver.setup({})
       lspconfig.eslint.setup({})
+
+      -- PHP
+      lspconfig.phpactor.setup({})
+
+      -- Nix
+      lspconfig.nixd.setup({})
+
+      -- Golang
+      lspconfig.gopls.setup({})
     end,
   },
   {
