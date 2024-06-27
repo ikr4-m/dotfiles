@@ -25,6 +25,9 @@ dotnet run --project path\to\csproj.csproj
 # Release csproj
 dotnet build -c Release
 
+# Publish csproj (If you doing super duper disgusting csproj manipulation)
+dotnet publish -c Release
+
 # Run test build
 dotnet test
 
