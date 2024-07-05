@@ -348,6 +348,14 @@ vim.cmd([[
   endif 
 ]])
 
+-- Autoterminal command
+vim.cmd([[
+    " Enter Terminal-mode (insert) automatically
+    autocmd TermOpen * startinsert
+    " Disables number lines on terminal buffers
+    autocmd TermOpen * :set nonumber norelativenumber
+]])
+
 -- Custom Mapping
 vim.cmd([[ 
   " fixing X can cut
