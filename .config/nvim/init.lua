@@ -217,6 +217,9 @@ require("lazy").setup({
 
       -- Golang
       lspconfig.gopls.setup({})
+
+      -- Csharp
+      lspconfig.csharp_ls.setup({})
     end,
   },
   {
@@ -320,6 +323,7 @@ require("lazy").setup({
 vim.cmd([[
   set autoindent
   set number
+  set relativenumber
   set cul
   set ttyfast
   set cursorline
