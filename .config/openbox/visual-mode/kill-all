@@ -1,8 +1,0 @@
-#!/usr/bin/env bash
-
-# Kill notification daemon
-killall dunst
-
-# Reset rc.xml
-cp ~/.config/openbox/rc.xml.default ~/.config/openbox/rc.xml
-

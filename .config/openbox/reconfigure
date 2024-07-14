@@ -1,7 +1,0 @@
-#!/usr/bin/env bash
-
-current="$(cat ~/.config/openbox/visual-mode/current)"
-
-cp ~/.config/openbox/rc.xml.default ~/.config/openbox/rc.xml
-bash -c ~/.config/openbox/visual-mode/$current/ui
-
