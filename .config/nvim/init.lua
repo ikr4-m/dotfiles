@@ -112,16 +112,16 @@ require("lazy").setup({
     end
   },
   {
-    "nvim-tree/nvim-tree.lua",
-    dependencies = { 'nvim-tree/nvim-web-devicons' },
-    event = "VeryLazy",
-    config = function ()
-      require("nvim-tree").setup()
+    "kelly-lin/ranger.nvim",
+    config = function()
+      require("ranger-nvim").setup({ replace_netrw = true })
+      vim.api.nvim_set_keymap("n", "<leader>e", "", {
+        noremap = true,
+        callback = function()
+          require("ranger-nvim").open(true)
+        end,
+      })
     end,
-    init = function ()
-      vim.api.nvim_set_keymap("n", "<leader>e", ":NvimTreeToggle<CR>", { noremap = true })
-      vim.api.nvim_set_keymap("n", "<leader>fe", ":NvimTreeFocus<CR>", { noremap = true })
-    end
   },
   {
     "goolord/alpha-nvim",
