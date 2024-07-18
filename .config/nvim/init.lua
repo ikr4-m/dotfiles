@@ -78,6 +78,7 @@ require("lazy").setup({
       require('notify').setup({
         timeout = 3000,
         max_width = 60,
+        background_colour = "#000000",
       })
     end,
   },
