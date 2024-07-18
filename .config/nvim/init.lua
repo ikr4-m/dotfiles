@@ -352,6 +352,14 @@ vim.cmd([[
   endif 
 ]])
 
+-- Setter for transparent background
+vim.cmd([[
+  highlight Normal guibg=none
+  highlight NonText guibg=none
+  highlight Normal ctermbg=none
+  highlight NonText ctermbg=none
+]])
+
 -- Autoterminal command
 vim.cmd([[
     " Enter Terminal-mode (insert) automatically
