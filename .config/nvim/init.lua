@@ -65,7 +65,20 @@ require("lazy").setup({
   "folke/which-key.nvim",
   "folke/zen-mode.nvim",
   "sindrets/diffview.nvim",
+  "Exafunction/codeium.vim",
   "j-hui/fidget.nvim",
+  {
+    "nvim-neo-tree/neo-tree.nvim",
+    branch = "v3.x",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-tree/nvim-web-devicons",
+      "MunifTanjim/nui.nvim",
+    },
+    init = function ()
+      vim.api.nvim_set_keymap("n", "<C-t>", ":Neotree toggle<CR>", { noremap = true })
+    end
+  },
   {
     "sheerun/vim-polyglot",
     init = function ()
@@ -247,7 +260,7 @@ require("lazy").setup({
       lspconfig.eslint.setup({})
 
       -- PHP
-      lspconfig.phpactor.setup({})
+      lspconfig.intelephense.setup({})
 
       -- Nix
       lspconfig.nixd.setup({})
