@@ -256,7 +256,7 @@ require("lazy").setup({
       local lspconfig = require('lspconfig')
 
       -- JavaScript
-      lspconfig.tsserver.setup({})
+      lspconfig.ts_lua.setup({})
       lspconfig.eslint.setup({})
 
       -- PHP
