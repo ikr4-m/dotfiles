@@ -24,15 +24,16 @@ config.use_fancy_tab_bar = false
 config.hide_tab_bar_if_only_one_tab = true
 
 config.audible_bell = "Disabled"
+config.font_size = 16.0
 
-config.default_domain = 'WSL:ArchWSL'
-config.wsl_domains = {
-    {
-        name = 'WSL:ArchWSL',
-        distribution = 'ArchWSL',
-        default_cwd = '~'
-    }
-}
+--config.default_domain = 'WSL:ArchWSL'
+--config.wsl_domains = {
+--    {
+--        name = 'WSL:ArchWSL',
+--        distribution = 'ArchWSL',
+--        default_cwd = '~'
+--    }
+--}
 --- Set Pwsh as the default on Windows
 -- config.default_prog = { 'powershell.exe' }
 
