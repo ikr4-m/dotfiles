@@ -39,4 +39,4 @@ eval "$(starship init bash)"
 export GPG_TTY=$(tty)
 
 # Start albafetch
-albafetch -l endeavouros
+albafetch

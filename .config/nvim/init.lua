@@ -95,16 +95,6 @@ require("lazy").setup({
     end,
   },
   {
-    "rcarriga/nvim-notify",
-    config = function ()
-      require('notify').setup({
-        timeout = 3000,
-        max_width = 60,
-        background_colour = "#000000",
-      })
-    end,
-  },
-  {
     "nanozuki/tabby.nvim",
     dependencies = 'nvim-tree/nvim-web-devicons',
     config = function ()
