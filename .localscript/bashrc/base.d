@@ -12,8 +12,9 @@ alias gpu-integrated="sudo envycontrol -s integrated"
 alias gpu-hybrid="sudo envycontrol -s hybrid"
 alias gpu-nvidia="sudo envycontrol -s nvidia"
 
-# Nix Aliases
+# Nix Aliases and Channel Pinning
 alias nix-prune="nix-collect-garbage -d"
+export NIX_PATH=$HOME/.nix-defexpr/channels
 
 # Vim
 alias vim="nvim"
@@ -30,7 +31,6 @@ bind '"\e[B":history-search-forward'
 alias ls='ls --color=auto'
 alias grep='grep --color=auto'
 PS1='[\u@\h \W]\$ '
-
 
 # Start starship
 eval "$(starship init bash)"
