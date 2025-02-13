@@ -162,8 +162,13 @@ require("lazy").setup({
         nnoremap <Leader>fg <cmd>Telescope live_grep<cr>
         nnoremap <Leader>fb <cmd>Telescope buffers<cr>
         nnoremap <Leader>fh <cmd>Telescope help_tags<cr>
-        nnoremap <Leader>fn <cmd>Telescope notify<cr>
       ]])
+    end,
+  },
+  {
+    "vigoux/notifier.nvim",
+    init = function ()
+      require('notifier').setup({})
     end,
   },
   {
@@ -269,6 +274,9 @@ require("lazy").setup({
 
       -- Csharp
       lspconfig.csharp_ls.setup({})
+
+      -- Python
+      lspconfig.pylsp.setup({})
     end,
   },
   {
@@ -341,29 +349,42 @@ require("lazy").setup({
     end,
   },
   {
-    "lewis6991/hover.nvim",
+    'patrickpichler/hovercraft.nvim',
     event = "VeryLazy",
-    config = function ()
-      require('hover').setup({
-        init = function()
-          require("hover.providers.lsp")
-        end,
-        preview_opts = {
-          border = 'single'
+    dependencies = {
+      { 'nvim-lua/plenary.nvim' },
+    },
+    opts = function()
+      return {
+        providers = {
+          providers = {
+            {
+              'LSP',
+              require('hovercraft.provider.lsp.hover').new(),
+            },
+          }
         },
-        preview_window = false,
-        title = true,
-        mouse_providers = {
-            'LSP'
+        window = {
+          border = 'single',
         },
-        mouse_delay = 1000
-      })
-      -- Setup keymaps
-      vim.keymap.set("n", "K", require("hover").hover, {desc = "hover.nvim"})
-      vim.keymap.set("n", "gK", require("hover").hover_select, {desc = "hover.nvim (select)"})
-      vim.keymap.set("n", "<C-p>", function() require("hover").hover_switch("previous") end, {desc = "hover.nvim (previous source)"})
-      vim.keymap.set("n", "<C-n>", function() require("hover").hover_switch("next") end, {desc = "hover.nvim (next source)"})
+        keys = {
+          { '<C-u>',   function() require('hovercraft').scroll({ delta = -4 }) end },
+          { '<C-d>',   function() require('hovercraft').scroll({ delta = 4 }) end },
+          { '<TAB>',   function() require('hovercraft').hover_next() end },
+          { '<S-TAB>', function() require('hovercraft').hover_next({ step = -1 }) end },
+        }
+      }
     end,
+    keys = {
+      { "K", function()
+        local hovercraft = require("hovercraft")
+        if hovercraft.is_visible() then
+          hovercraft.enter_popup()
+        else
+          hovercraft.hover()
+        end
+      end },
+    },
   },
 
 })
