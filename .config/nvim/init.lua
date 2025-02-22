@@ -21,7 +21,11 @@ require("lazy").setup({
   --------------------------
   -- Customization
   --------------------------
-  "Yggdroot/indentLine",
+
+  {
+    "lukas-reineke/indent-blankline.nvim",
+    main = "ibl",
+  },
   {
     'IogaMaster/neocord',
     event = "VeryLazy",
@@ -89,10 +93,13 @@ require("lazy").setup({
     end
   },
   {
-    "sheerun/vim-polyglot",
-    init = function ()
-      vim.g.polyglot_disabled = { 'markdown' }
-    end,
+    "elkowar/yuck.vim",
+    event = "VeryLazy",
+  },
+  {
+    'kaarmu/typst.vim',
+    ft = 'typst',
+    lazy = false,
   },
   {
     "nanozuki/tabby.nvim",
@@ -250,10 +257,6 @@ require("lazy").setup({
     },
   },
   {
-    "elkowar/yuck.vim",
-    event = "VeryLazy",
-  },
-  {
     "neovim/nvim-lspconfig",
     event = "VeryLazy",
     init = function ()
@@ -277,6 +280,9 @@ require("lazy").setup({
 
       -- Python
       lspconfig.pylsp.setup({})
+
+      -- Typst
+      lspconfig.tinymist.setup({})
     end,
   },
   {
@@ -402,10 +408,7 @@ vim.cmd([[
   set showmatch
   set showtabline=1
   set mouse=a
-  set tabstop=2
-  set shiftwidth=2
-  set softtabstop=2
-  set expandtab
+  set tabstop=2 shiftwidth=2 softtabstop=2 expandtab
   set wrap!
   set cmdheight=1
   set hidden
@@ -456,23 +459,30 @@ vim.cmd([[
   nmap <silent> <C-l> :vertical resize -50<CR>
 
   " Expand horizontal window
-  nmap <space>w <C-w>_
-  nmap <space>q <C-w>=
+  nmap <Leader>w <C-w>_
+  nmap <Leader>q <C-w>=
 
   " Wrap
-  nmap <space>p :set wrap<CR>
-  nmap <space><space>p : set wrap!<CR>
+  nmap <Leader>p :set wrap<CR>
+  nmap <Leader><Leader>p : set wrap!<CR>
 
   " PgDown PgUp for 60% Keyboard
   nmap { <PageUp>
   nmap } <PageDown>
 
   " Load session
-  nmap <space>d :source .vimsession<CR>
+  nmap <Leader>d :source .vimsession<CR>
 
   " Save session
-  nmap <space>s :mks! .vimsession<CR>
+  nmap <Leader>s :mks! .vimsession<CR>
 
   " Search and replace
-  nmap <space>r :%s /
+  nmap <Leader>r :%s /
 ]])
+
+-- Custom Mapping for tabbing
+for i = 2, 4, 2
+do
+  vim.cmd(string.format("nmap <Leader>t%is :set sw=%i ts=%i expandtab<CR>", i, i, i))
+  vim.cmd(string.format("nmap <Leader>t%it :set sw=%i ts=%i noexpandtab<CR>", i, i, i))
+end
