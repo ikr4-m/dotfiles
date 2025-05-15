@@ -24,7 +24,9 @@ require("lazy").setup({
 
   {
     "lukas-reineke/indent-blankline.nvim",
-    main = "ibl",
+    config = function ()
+      require("ibl").setup()
+    end,
   },
   {
     'IogaMaster/neocord',
@@ -220,6 +222,37 @@ require("lazy").setup({
   -- LSP
   --------------------------
   {
+    "neovim/nvim-lspconfig",
+    event = "VeryLazy",
+    init = function ()
+      local lspconfig = require('lspconfig')
+
+      local servers_to_setup = {
+        "ts_ls",        -- JavaScript/TypeScript
+        "eslint",       -- ESLint
+        "intelephense", -- PHP
+        "nixd",         -- Nix
+        "gopls",        -- Golang
+        "csharp_ls",    -- Csharp
+        "pylsp",        -- Python
+        "tinymist",     -- Typst
+        "lua_ls",       -- Lua
+      }
+
+      for _, server_name in ipairs(servers_to_setup) do
+        if lspconfig[server_name] and lspconfig[server_name].setup then
+          lspconfig[server_name].setup({})
+        end
+      end
+    end,
+  },
+  {
+    "mason-org/mason.nvim",
+    config = function ()
+      require("mason").setup({})
+    end,
+  },
+  {
     "folke/trouble.nvim",
     opts = {}, -- for default options, refer to the configuration section for custom setup.
     cmd = "Trouble",
@@ -255,35 +288,6 @@ require("lazy").setup({
         desc = "Quickfix List (Trouble)",
       },
     },
-  },
-  {
-    "neovim/nvim-lspconfig",
-    event = "VeryLazy",
-    init = function ()
-      local lspconfig = require('lspconfig')
-
-      -- JavaScript
-      lspconfig.ts_ls.setup({})
-      lspconfig.eslint.setup({})
-
-      -- PHP
-      lspconfig.intelephense.setup({})
-
-      -- Nix
-      lspconfig.nixd.setup({})
-
-      -- Golang
-      lspconfig.gopls.setup({})
-
-      -- Csharp
-      lspconfig.csharp_ls.setup({})
-
-      -- Python
-      lspconfig.pylsp.setup({})
-
-      -- Typst
-      lspconfig.tinymist.setup({})
-    end,
   },
   {
     "hrsh7th/nvim-cmp",
@@ -406,7 +410,6 @@ vim.cmd([[
   set smartindent
   set linebreak
   set showmatch
-  set showtabline=1
   set mouse=a
   set tabstop=2 shiftwidth=2 softtabstop=2 expandtab
   set wrap!
