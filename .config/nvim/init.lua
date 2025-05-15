@@ -1,27 +1,25 @@
--- Initialize lazy.nvim
+-- Bootstrap lazy.nvim
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-if not vim.loop.fs_stat(lazypath) then
-  vim.fn.system({
-    "git",
-    "clone",
-    "--filter=blob:none",
-    "https://github.com/folke/lazy.nvim.git",
-    "--branch=stable", -- latest stable release
-    lazypath,
-  })
+if not (vim.uv or vim.loop).fs_stat(lazypath) then
+  local lazyrepo = "https://github.com/folke/lazy.nvim.git"
+  local out = vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable", lazyrepo, lazypath })
+  if vim.v.shell_error ~= 0 then
+    vim.api.nvim_echo({
+      { "Failed to clone lazy.nvim:\n", "ErrorMsg" },
+      { out, "WarningMsg" },
+      { "\nPress any key to exit..." },
+    }, true, {})
+    vim.fn.getchar()
+    os.exit(1)
+  end
 end
 vim.opt.rtp:prepend(lazypath)
-
--- Set Map Leader to space
 vim.g.mapleader = " "
 
--- The rest of plugin
 require("lazy").setup({
-
   --------------------------
   -- Customization
   --------------------------
-
   {
     "lukas-reineke/indent-blankline.nvim",
     config = function ()
@@ -64,44 +62,16 @@ require("lazy").setup({
       ]])
     end,
   },
-
-  --------------------------
-  -- QOL
-  --------------------------
-  "folke/which-key.nvim",
-  "folke/zen-mode.nvim",
-  "sindrets/diffview.nvim",
-  "j-hui/fidget.nvim",
   {
-    "Exafunction/codeium.vim",
+    "nvim-treesitter/nvim-treesitter",
+    ensure_installed = { "c", "lua", "vim", "query" },
+    build = ":TSUpdate",
     config = function ()
-      vim.g.codeium_enabled = false
-      vim.keymap.set('i', '<C-g>', function () return vim.fn['codeium#Accept']() end, { expr = true, silent = true })
-      vim.keymap.set('i', '<c-;>', function() return vim.fn['codeium#CycleCompletions'](1) end, { expr = true, silent = true })
-      vim.keymap.set('i', '<c-,>', function() return vim.fn['codeium#CycleCompletions'](-1) end, { expr = true, silent = true })
-      vim.keymap.set('i', '<c-x>', function() return vim.fn['codeium#Clear']() end, { expr = true, silent = true })
-    end
-  },
-  {
-    "nvim-neo-tree/neo-tree.nvim",
-    branch = "v3.x",
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-      "nvim-tree/nvim-web-devicons",
-      "MunifTanjim/nui.nvim",
-    },
-    init = function ()
-      vim.api.nvim_set_keymap("n", "<C-t>", ":Neotree toggle<CR>", { noremap = true })
-    end
-  },
-  {
-    "elkowar/yuck.vim",
-    event = "VeryLazy",
-  },
-  {
-    'kaarmu/typst.vim',
-    ft = 'typst',
-    lazy = false,
+      require'nvim-treesitter.configs'.setup {
+        sync_install = false,
+        auto_install = true,
+      }
+    end,
   },
   {
     "nanozuki/tabby.nvim",
@@ -133,22 +103,33 @@ require("lazy").setup({
       vim.api.nvim_set_keymap("n", "<leader>tmn", ":+tabmove<CR>", { noremap = true })
     end
   },
+
+  --------------------------
+  -- QOL
+  --------------------------
+  "folke/which-key.nvim",
+  "folke/zen-mode.nvim",
+  "j-hui/fidget.nvim",
   {
-    "kelly-lin/ranger.nvim",
-    config = function()
-      require("ranger-nvim").setup({ replace_netrw = true })
-      vim.api.nvim_set_keymap("n", "<leader>e", "", {
-        noremap = true,
-        callback = function()
-          require("ranger-nvim").open(true)
-        end,
-      })
-    end,
+    "Exafunction/codeium.vim",
+    config = function ()
+      vim.g.codeium_enabled = false
+      vim.keymap.set('i', '<C-g>', function () return vim.fn['codeium#Accept']() end, { expr = true, silent = true })
+      vim.keymap.set('i', '<c-;>', function() return vim.fn['codeium#CycleCompletions'](1) end, { expr = true, silent = true })
+      vim.keymap.set('i', '<c-,>', function() return vim.fn['codeium#CycleCompletions'](-1) end, { expr = true, silent = true })
+      vim.keymap.set('i', '<c-x>', function() return vim.fn['codeium#Clear']() end, { expr = true, silent = true })
+    end
   },
   {
-    "goolord/alpha-nvim",
-    config = function ()
-      require("alpha").setup(require("alpha.themes.dashboard").config)
+    "nvim-neo-tree/neo-tree.nvim",
+    branch = "v3.x",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-tree/nvim-web-devicons",
+      "MunifTanjim/nui.nvim",
+    },
+    init = function ()
+      vim.api.nvim_set_keymap("n", "<C-t>", ":Neotree toggle<CR>", { noremap = true })
     end
   },
   {
@@ -221,35 +202,17 @@ require("lazy").setup({
   --------------------------
   -- LSP
   --------------------------
-  {
-    "neovim/nvim-lspconfig",
-    event = "VeryLazy",
-    init = function ()
-      local lspconfig = require('lspconfig')
-
-      local servers_to_setup = {
-        "ts_ls",        -- JavaScript/TypeScript
-        "eslint",       -- ESLint
-        "intelephense", -- PHP
-        "nixd",         -- Nix
-        "gopls",        -- Golang
-        "csharp_ls",    -- Csharp
-        "pylsp",        -- Python
-        "tinymist",     -- Typst
-        "lua_ls",       -- Lua
-      }
-
-      for _, server_name in ipairs(servers_to_setup) do
-        if lspconfig[server_name] and lspconfig[server_name].setup then
-          lspconfig[server_name].setup({})
-        end
-      end
-    end,
-  },
+  "neovim/nvim-lspconfig",
   {
     "mason-org/mason.nvim",
     config = function ()
       require("mason").setup({})
+    end,
+  },
+  {
+    "mason-org/mason-lspconfig.nvim",
+    config = function ()
+      require("mason-lspconfig").setup({})
     end,
   },
   {
@@ -396,7 +359,6 @@ require("lazy").setup({
       end },
     },
   },
-
 })
 
 -- Setter
@@ -420,12 +382,6 @@ vim.cmd([[
   set updatetime=300
   set shortmess+=c
   set guifont=Hack\ Nerd\ Font:h8
-
-  if has("patch-8.1.1564")
-    set signcolumn=number
-  else
-    set signcolumn=yes
-  endif 
 ]])
 
 -- Setter for transparent background
