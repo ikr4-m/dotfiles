@@ -110,6 +110,7 @@ require("lazy").setup({
   "folke/which-key.nvim",
   "folke/zen-mode.nvim",
   "j-hui/fidget.nvim",
+  "kdheepak/lazygit.nvim",
   {
     "Exafunction/codeium.vim",
     config = function ()
@@ -136,6 +137,13 @@ require("lazy").setup({
     "lewis6991/gitsigns.nvim",
     config = function()
       require('gitsigns').setup()
+    end,
+  },
+  {
+    "FabijanZulj/blame.nvim",
+    lazy = false,
+    config = function()
+      require('blame').setup {}
     end,
   },
   {
