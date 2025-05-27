@@ -7,6 +7,7 @@ return {
     dashboard = { enabled = true },
     explorer = { enabled = true, replace_netrw = true, },
     input = { enabled = true },
+    indent = { enabled = true },
     notifier = { enabled = true },
     quickfile = { enabled = true },
     scope = { enabled = true },
