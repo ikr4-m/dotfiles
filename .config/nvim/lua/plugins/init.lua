@@ -14,7 +14,7 @@ return {
   "folke/which-key.nvim",
   "folke/zen-mode.nvim",
   "j-hui/fidget.nvim",
-  "kdheepak/lazygit.nvim",
+  "Snyssfx/goerr-nvim",
   require("plugins.qol.blame"),
   require("plugins.qol.codecompanion"),
   require("plugins.qol.fzf"),
@@ -28,10 +28,8 @@ return {
   --------------------------
   -- LSP (Language Server Protocol)
   --------------------------
-  "neovim/nvim-lspconfig",
   require("plugins.lsp.hovercraft"),
   require("plugins.lsp.mason"),
-  require("plugins.lsp.mason_lspconfig"),
   require("plugins.lsp.nvim_cmp"),
   require("plugins.lsp.trouble"),
 }
