@@ -28,6 +28,9 @@ vim.api.nvim_set_keymap("n", "<Leader>s", ":mks! .vimsession<CR>", { noremap = t
 -- Search and replace
 vim.api.nvim_set_keymap("n", "<Leader>r", ":%s /", { noremap = true, desc = "Search and replace" })
 
+-- No Highlight
+vim.api.nvim_set_keymap("n", "<Leader><Leader>", ":nohlsearch<CR>", { silent = true })
+
 -- Custom Mapping for tabbing (tabstop/shiftwidth)
 for i = 2, 4, 2 do
   vim.api.nvim_set_keymap(
