@@ -24,6 +24,7 @@ return {
   require("plugins.qol.noice"),
   require("plugins.qol.notifier"),
   require("plugins.qol.snacks"),
+  require("plugins.qol.hop"),
 
   --------------------------
   -- LSP (Language Server Protocol)

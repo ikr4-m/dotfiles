@@ -12,6 +12,7 @@
   "fzf-lua": { "branch": "main", "commit": "a3e614173397e947bc2755c8c90633ff57f93c1e" },
   "gitsigns.nvim": { "branch": "main", "commit": "e399f9748d7cfd8859747c8d6c4e9c8b4d50a1bd" },
   "goerr-nvim": { "branch": "main", "commit": "d30ba1cab652e78dbf6a644eb4823be57e9af203" },
+  "hop.nvim": { "branch": "master", "commit": "08ddca799089ab96a6d1763db0b8adc5320bf050" },
   "hovercraft.nvim": { "branch": "main", "commit": "49ce0d3f1a7b832591d8df46339f8999a17bbf37" },
   "lazy.nvim": { "branch": "main", "commit": "6c3bda4aca61a13a9c63f1c1d1b16b9d3be90d7a" },
   "lualine.nvim": { "branch": "master", "commit": "15884cee63a8c205334ab13ab1c891cd4d27101a" },
