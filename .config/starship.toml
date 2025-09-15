@@ -8,6 +8,7 @@ $git_status\
 $fill\
 [](#303030)\
 $status\
+$nix_shell\
 $cmd_duration\
 [ ](bg:#303030 fg:#909090)\
 $username\
@@ -119,3 +120,8 @@ disabled = false
 time_format = "%R"
 style = "bg:#303030 fg:#567676"
 format = '[$time ]($style)'
+
+[nix_shell]
+symbol = '❄️ '
+style = "fg:#0a96d6 bg:#303030"
+format = '[ ](bold fg:#909090 bg:#303030)[$symbol $state ]($style)'

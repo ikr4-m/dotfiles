@@ -38,5 +38,5 @@ eval "$(starship init bash)"
 # GPG
 export GPG_TTY=$(tty)
 
-# Start albafetch
-albafetch
+# Start z
+. $HOME/dotfiles/.localscript/bashrc/exec/z.sh
