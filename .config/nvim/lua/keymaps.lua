@@ -54,3 +54,26 @@ vim.api.nvim_set_keymap(
   ":syntax off<CR>:filetype off<CR>:filetype plugin off<CR>:filetype indent off<CR>:lua require(\'cmp\').setup.buffer { enabled = false }<CR>",
   { noremap = true, desc = "Disable syntax and filetype detection" }
 )
+
+-- "Cursor always center" toggle
+vim.g.cursor_center_is_on = false
+local function toggle_cursor_centering()
+  vim.g.cursor_center_is_on = not vim.g.cursor_center_is_on
+  if vim.g.cursor_center_is_on then
+    vim.opt.scrolloff = 999
+    vim.notify("Cursor Centering: ON", vim.log.levels.INFO)
+  else
+    vim.opt.scrolloff = 0
+    vim.notify("Cursor Centering: OFF", vim.log.levels.INFO)
+  end
+end
+if vim.g.cursor_center_is_on then
+  vim.opt.scrolloff = 999
+else
+  vim.opt.scrolloff = 0
+end
+vim.keymap.set("n", "<Leader>cc", toggle_cursor_centering, {
+  noremap = true,
+  silent = true,
+  desc = "Toggle cursor centering (scrolloff)",
+})
