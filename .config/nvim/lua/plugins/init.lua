@@ -17,7 +17,7 @@ return {
   "j-hui/fidget.nvim",
   "Snyssfx/goerr-nvim",
   require("plugins.qol.blame"),
-  require("plugins.qol.codecompanion"),
+  --require("plugins.qol.codecompanion"),
   require("plugins.qol.fzf"),
   require("plugins.qol.gitsigns"),
   require("plugins.qol.illuminate"),

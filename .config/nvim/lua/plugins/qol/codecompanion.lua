@@ -6,13 +6,13 @@ return {
     {
       "ravitemer/mcphub.nvim",
       cmd = "MCPHub",
-      build = "npm install -g mcp-hub@latest",
+      build = "pnpm install -g mcp-hub@latest",
       config = true,
     },
     {
       "Davidyz/VectorCode",
       version = "*",
-      build = "pipx install vectorcode",
+      build = "uv pip install vectorcode",
       dependencies = { "nvim-lua/plenary.nvim" },
     },
     {

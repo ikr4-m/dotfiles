@@ -25,7 +25,7 @@ config.enable_wayland = true
 config.hide_tab_bar_if_only_one_tab = true
 
 config.audible_bell = "Disabled"
-config.font_size = 16.0
+config.font_size = 13.0
 
 --config.default_domain = 'WSL:ArchWSL'
 --config.wsl_domains = {
