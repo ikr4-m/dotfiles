@@ -7,6 +7,7 @@ return {
   require("plugins.customization.nord_theme"),
   require("plugins.customization.tabby"),
   require("plugins.customization.treesitter"),
+  --require("plugins.customization.brainrot"), -- Enable for fun
 
   --------------------------
   -- QOL (Quality of Life)

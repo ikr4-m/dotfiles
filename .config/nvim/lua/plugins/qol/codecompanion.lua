@@ -68,22 +68,27 @@ return {
       },
     },
     adapters = {
-      gemini = function()
-        return require("codecompanion.adapters").extend("gemini", {
-          model = {
-            default = "gemini-2.5-pro-preview-05-06"
-          },
-          env = {
-            api_key = "cmd:cat ~/.config/nvim/secrets/gemini_api.key"
-          }
-        })
-      end,
+      http = {
+        gemini = function()
+          return require("codecompanion.adapters").extend("gemini", {
+            model = {
+              default = "gemini-2.5-pro-preview-05-06"
+            },
+            env = {
+              api_key = "cmd:cat ~/.config/nvim/secrets/gemini_api.key"
+            }
+          })
+        end,
+      }
     },
     strategies = {
       chat = {
         adapter = "gemini"
       },
       inline = {
+        adapter = "gemini"
+      },
+      cmd = {
         adapter = "gemini"
       },
     }
