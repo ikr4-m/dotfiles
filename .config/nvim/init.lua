@@ -17,6 +17,7 @@ vim.opt.rtp:prepend(lazypath)
 
 -- Set mapleader early
 vim.g.mapleader = " "
+vim.g.maplocalleader = "\\"
 
 -- Load core configurations
 require("options")
