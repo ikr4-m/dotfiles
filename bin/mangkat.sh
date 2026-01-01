@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -euo pipefail
 
 if [[ "$(pwd)" != "$HOME" ]]; then
     echo "Please execute this on home ($HOME) directory."
