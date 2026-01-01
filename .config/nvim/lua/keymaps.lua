@@ -77,3 +77,15 @@ vim.keymap.set("n", "<Leader>cc", toggle_cursor_centering, {
   silent = true,
   desc = "Toggle cursor centering (scrolloff)",
 })
+
+-- Loop to map g1 through g9 to go to the respective tab index
+for i = 1, 9 do
+  vim.keymap.set('n', 'g' .. i, function()
+    vim.cmd('tabnext ' .. i)
+  end, { desc = 'Go to tab ' .. i, noremap = true, silent = true })
+end
+
+-- Map g0 to go to the very last tab
+vim.keymap.set('n', 'g0', function()
+  vim.cmd('tablast')
+end, { desc = 'Go to last tab', noremap = true, silent = true })
