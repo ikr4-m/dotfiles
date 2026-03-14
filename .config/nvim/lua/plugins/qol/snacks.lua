@@ -25,9 +25,21 @@ return {
     },
   },
   opts = {
+    explorer = { enabled = true, replace_netrw = true, },
+    picker = {
+      sources = {
+        files = {
+          hidden = true,   -- Show hidden/dotfiles
+          ignored = false, -- Respect .gitignore
+        },
+        grep = {
+          hidden = true,   -- Also search in hidden files
+          ignored = false,
+        },
+      },
+    },
     bigfile = { enabled = true },
     dashboard = { enabled = true },
-    explorer = { enabled = true, replace_netrw = true, },
     input = { enabled = true },
     indent = { enabled = true },
     lazygit = { enabled = true },

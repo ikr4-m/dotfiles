@@ -17,6 +17,8 @@ return {
   require("plugins.qol.snacks"),
   require("plugins.qol.hop"),
   require("plugins.qol.grug_far"),
+  require("plugins.qol.treesitter_context"),
+  require("plugins.qol.gitlinker"),
 
   --------------------------
   -- LSP (Language Server Protocol)

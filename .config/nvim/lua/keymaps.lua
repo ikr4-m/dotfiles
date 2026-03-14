@@ -1,5 +1,4 @@
 -- General keymaps
-vim.api.nvim_set_keymap("n", "x", "_d", { noremap = true, desc = "Fix X can cut" })
 vim.api.nvim_set_keymap("n", "<Leader>v", "<C-v>", { noremap = true, desc = "Fix <C-v> in WSL" })
 vim.api.nvim_set_keymap("t", "<Esc>", "<C-\\><C-n>", { noremap = true, desc = "Escape from terminal" })
 
@@ -30,6 +29,13 @@ vim.api.nvim_set_keymap("n", "<Leader>r", ":%s /", { noremap = true, desc = "Sea
 
 -- No Highlight
 vim.api.nvim_set_keymap("n", "<Leader><Leader>", ":nohlsearch<CR>", { silent = true })
+
+-- Trim empty line
+vim.api.nvim_set_keymap("n", "<Leader>tl", ":g/^$/d<CR>", { silent = true, desc = "Trim empty line" })
+vim.api.nvim_set_keymap("n", "<Leader>tw", ":%s/\\s\\+$//e<CR>", { silent = true, desc = "Trim whitespace" })
+
+-- Cut to blackhole register
+vim.keymap.set({'n', 'x'}, 'x', '"_d', { desc = "Delete without yanking" })
 
 -- Custom Mapping for tabbing (tabstop/shiftwidth)
 for i = 2, 4, 2 do
