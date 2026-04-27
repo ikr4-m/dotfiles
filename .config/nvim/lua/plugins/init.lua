@@ -2,10 +2,13 @@ return {
   --------------------------
   -- Customization
   --------------------------
+  "vyfor/cord.nvim",
   require("plugins.customization.lualine"),
   require("plugins.customization.nord_theme"),
-  require("plugins.customization.tabby"),
-  require("plugins.customization.treesitter"),
+  require("plugins.customization.bufferline"),
+  require("plugins.customization.scope"),
+  require("plugins.customization.treesitter_manager"),
+  require("plugins.customization.dropbar"),
   --require("plugins.customization.brainrot"), -- Enable for fun
 
   --------------------------
@@ -13,11 +16,11 @@ return {
   --------------------------
   "folke/which-key.nvim",
   require("plugins.qol.blame"),
+  require("plugins.qol.mini_diff"),
   require("plugins.qol.fzf"),
   require("plugins.qol.snacks"),
   require("plugins.qol.hop"),
   require("plugins.qol.grug_far"),
-  require("plugins.qol.treesitter_context"),
   require("plugins.qol.gitlinker"),
 
   --------------------------

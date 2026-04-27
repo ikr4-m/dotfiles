@@ -29,12 +29,21 @@ return {
     picker = {
       sources = {
         files = {
-          hidden = true,   -- Show hidden/dotfiles
-          ignored = false, -- Respect .gitignore
+          hidden = true,
+          ignored = false,
         },
         grep = {
-          hidden = true,   -- Also search in hidden files
+          hidden = true,
           ignored = false,
+        },
+        explorer = {
+          hidden = true,
+          ignored = true,
+          layout = {
+            layout = {
+              position = "right",
+            },
+          },
         },
       },
     },
