@@ -1,0 +1,21 @@
+# Disable this snap-pac hook in /etc/pacman.d/hooks/ to use this hook
+# 05-snap-pac-pre.hook -> /dev/null  (from /usr/share/libalpm/hooks/)
+# zz-snap-pac-post.hook -> /dev/null (from /usr/share/libalpm/hooks/)
+
+[Trigger]
+Operation = Install
+Operation = Upgrade
+Operation = Remove
+Type = Package
+
+Target = linux*
+Target = nvidia*
+Target = mesa*
+Target = xf86-video-*
+Target = limine*
+
+[Action]
+Description = Create root snapshot (kernel/driver/important apps)...
+Depends = snapper
+When = PreTransaction
+Exec = /usr/bin/snapper -c root create --cleanup-algorithm number -d "Pre-Kernel/Driver/Important Apps Transaction"
