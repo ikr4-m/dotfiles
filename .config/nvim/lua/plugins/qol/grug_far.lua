@@ -33,7 +33,7 @@ return {
   opts = {
     headerMaxWidth = 80, 
     prefills = {
-      flags = "-C 4", -- Always show 4 lines of context up and down
+      flags = "-C 2", -- Always show 2 lines of context up and down
     },
     debounceMs = 500, 
     transient = true, 

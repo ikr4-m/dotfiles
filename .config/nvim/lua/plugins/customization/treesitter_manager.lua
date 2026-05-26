@@ -6,5 +6,8 @@ return {
       "lua", "vim", "vimdoc", "javascript", "typescript", "python", "html", "css" 
     },
     auto_install = true,
+    highlight = {
+      enable = true,
+    },
   },
 }
