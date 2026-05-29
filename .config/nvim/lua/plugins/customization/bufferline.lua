@@ -23,6 +23,8 @@ return {
   init = function ()
     vim.keymap.set("n", "<S-h>", "<cmd>BufferLineCyclePrev<cr>", { desc = "Prev Buffer" })
     vim.keymap.set("n", "<S-l>", "<cmd>BufferLineCycleNext<cr>", { desc = "Next Buffer" })
+    vim.keymap.set("n", "<S-Left>", "<cmd>BufferLineMovePrev<cr>", { desc = "Prev Buffer" })
+    vim.keymap.set("n", "<S-Right>", "<cmd>BufferLineMoveNext<cr>", { desc = "Next Buffer" })
     vim.keymap.set("n", "<leader>C", "<cmd>bdelete<cr>", { desc = "Close Buffer" })
   end,
 }

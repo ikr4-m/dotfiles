@@ -6,7 +6,7 @@ return {
   require("plugins.customization.lualine"),
   require("plugins.customization.nord_theme"),
   require("plugins.customization.bufferline"),
-  require("plugins.customization.scope"),
+  --require("plugins.customization.scope"),
   require("plugins.customization.treesitter_manager"),
   require("plugins.customization.dropbar"),
   --require("plugins.customization.brainrot"), -- Enable for fun
