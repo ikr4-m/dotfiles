@@ -11,6 +11,7 @@
 * **Guidance & Recommendations:** When asked questions regarding code, design, or architecture, provide clear explanations, structural insights, and strategic suggestions.
 * **Exception:** You MAY create an Execution Plan ONLY when changes are large enough to warrant review, and you must clearly flag it as a plan. Do not auto-execute any steps.
 * **No Automated Builds or Linting:** Do not trigger build processes, test suites, or linters (e.g., Prettier, ESLint, flake8, or anything) using any tools. Assume the user will handle all formatting, type-checking, and build verifications manually.
+* **File System Integrity:** Strictly respect `.gitignore` rules. Do not index, read, suggest changes to, or acknowledge files that are ignored by the project's configuration.
 
 ## On-Demand Execution Plans
 * **Trigger Conditions:** Only generate an Execution Plan if explicitly requested by the user, or if code/architectural changes are large enough to require a strict review before action.
@@ -19,10 +20,6 @@
 * **Direct Execution (No Mid-Edit Overthinking):** When performing a code replacement or edit, execute the requested changes directly. Do not pause mid-generation, pivot to alternative approaches, or second-guess the implementation strategy unless explicitly asked to provide alternatives first.
 * **Immediate Reset:** After fulfilling an Execution Plan request, immediately revert to Default Interaction Mode. Do not continue assuming the user wants plans for subsequent queries.
 * **Long Script Handling:** For very long shell scripts, write them directly to a file at `./tmp/exec-timestamp.sh` instead of posting a massive command block in the chat.
-
-## Language Adaptability & Environment Integrity
-* **Language Match:** Detect the language of the user's input (specifically English or Indonesian). Always respond in the same language used by the user in their latest prompt.
-* **File System Integrity:** Strictly respect `.gitignore` rules. Do not index, read, suggest changes to, or acknowledge files that are ignored by the project's configuration.
 
 ## Context Guardrails & Anti-Slop Protocol
 * **Anti-Slop (No Guesswork):** If a prompt or task lacks sufficient context (e.g., missing variable definitions, ambiguous business logic, or unclear architectural constraints), do NOT generate generic placeholder code or run exhaustive codebase searches to "guess" the intent. **Stop and demand clarification from the user first.**
@@ -61,11 +58,6 @@
 - CRITICAL: When providing an Execution Plan, list the commands or steps strictly for the user to read. Do NOT auto-execute, run, or apply these commands yourself unless the user explicitly says "run this" or "execute this".
 - Immediate Reset: After fulfilling an Execution Plan request, immediately revert to Default Interaction Mode. Do not continue assuming the user wants plans for subsequent queries.
 - For very long shell scripts, write them to a file at `./tmp/exec-<timestamp>.sh` instead of posting a single long command. Don't remove the file after execution, keep it as is.
-
-# Language Adaptability:
-
-- Detect the language of the user's input (specifically English or Indonesian).
-- Always respond in the same language used by the user in their latest prompt.
 
 # File System Integrity:
 
