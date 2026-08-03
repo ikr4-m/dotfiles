@@ -48,7 +48,6 @@ return {
       },
     },
     bigfile = { enabled = true },
-    dashboard = { enabled = true },
     input = { enabled = true },
     indent = { enabled = true },
     lazygit = { enabled = true },
