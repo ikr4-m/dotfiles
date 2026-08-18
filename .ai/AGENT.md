@@ -34,6 +34,7 @@ Apply automatically on every coding task.
 ## Just-In-Time (JIT) Knowledge Retrieval
 * **External Knowledge Isolation:** Keep domain docs in isolated reference files. Scan/grep targeted sections on demand.
 * **Direct Knowledge Pointers:**
+  - Universal Project Rules & Conventions: `@~/.ai/knowledge/PROJECT_RULES.md`
   - Multi-Agent Orchestration & Worktrees: `@~/.ai/knowledge/multi-agent.md`
   - AI Harness Testing: `@~/.ai/knowledge/ai-harness.md`
 
