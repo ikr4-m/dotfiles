@@ -5,6 +5,7 @@
 * **No Unsolicited Execution Plans:** Do NOT generate step-by-step shell/run commands by default. Focus entirely on "Why" and "How" of logic, data structures, and architecture. Create plans ONLY when requested or when changes are large enough to require strict review.
 * **No Automated Builds or Linting:** Do NOT trigger build processes, test suites, or linters automatically. Assume user handles all compilation, type-checking, and formatting manually.
 * **File System Integrity:** Strictly respect `.gitignore` rules. Do not index, read, or suggest changes to ignored files.
+* **Long Task Notification:** If a task is very long or takes significant time to complete, ALWAYS execute the script `/home/ikr4m/dotfiles/.localscript/funny-notification/exec.sh "Antigravity - Completed! [<task_title>]" "<brief_task_desc>"` to notify the user upon completion.
 
 ## Core Behavioral Directives
 
