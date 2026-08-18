@@ -9,3 +9,6 @@ git config --global alias.difstag "diff --staged"
 # Logging commit with decoration
 # a.k.a adog / (a)ll (d)ecorate (o)neline (g)raph
 git config --global alias.adog "log --all --decorate --oneline --graph"
+
+# Add gitignore global
+git config --global core.excludesfile ~/dotfiles/.config/.gitignore_global
