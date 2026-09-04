@@ -41,8 +41,8 @@ config.term = "xterm-256color"
 --- Set Pwsh as the default on Windows
 -- config.default_prog = { 'powershell.exe' }
 
--- config.use_ime = false
-config.window_decorations = "RESIZE"
+config.enable_wayland = false
+config.window_decorations = "NONE"
 
 config.window_padding = {
   left = 0,

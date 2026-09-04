@@ -29,6 +29,7 @@ $RECYCLE.BIN/
 *.iml
 *.ipr
 out/
+.worktrees/
 
 *.7z
 *.dmg
