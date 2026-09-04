@@ -26,6 +26,9 @@ return {
   -- LSP (Language Server Protocol)
   --------------------------
   "Snyssfx/goerr-nvim",
+  require("plugins.lsp.nvim_dap"),
+  require("plugins.lsp.nvim_lspconfig"),
+  require("plugins.lsp.hovercraft"),
   require("plugins.lsp.hovercraft"),
   require("plugins.lsp.mason"),
   require("plugins.lsp.nvim_cmp"),
