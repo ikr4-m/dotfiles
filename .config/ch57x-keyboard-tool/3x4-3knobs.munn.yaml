@@ -1,0 +1,21 @@
+model: ch57x-3
+orientation: normal
+rows: 3
+columns: 4
+knobs: 3
+
+layers:
+  - buttons:
+      - ["a", "b", "c", "d"]
+      - ["e", "f", "g", "h"]
+      - ["i", "j", "k", "l"]
+    knobs:
+      - ccw: "m"
+        press: "n"
+        cw: "o"
+      - ccw: "p"
+        press: "q"
+        cw: "r"
+      - ccw: "s"
+        press: "t"
+        cw: "u"
