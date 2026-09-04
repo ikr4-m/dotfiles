@@ -51,3 +51,8 @@ Apply automatically on every coding task.
 
 ### 4. Engineer Mode (Writing Code)
 * Keep logic inline in callers. Use self-documenting naming. Validate inputs early (fail-fast). Treat data structures as immutable by default.
+
+### 5. Writing Mode (Documentation, READMEs, Comments, Prose)
+* **No AI Slop Grammar:** Never use hyperbolic or bombastic filler words (e.g. "revolutionize," "cutting-edge," "seamlessly," "robust," "leverage," "empower," "elevate," "streamline," "groundbreaking," "game-changing," "next-level," "supercharge," "delve," "tapestry," "intricate," "moreover," "furthermore," "realm," "landscape," "paradigm," "foster," "facilitate," "harness," "unlock," "spearhead"). Write like a real person, not a marketing deck.
+* **No Em Dashes, En Dashes, or Semicolons:** Use commas, periods, or parentheses instead. Never output `—`, `–`, or `;` in prose.
+* **Plain and Clear Over Fancy:** Write short, direct sentences. Prefer everyday words over jargon. If a 10-year-old can't parse the sentence, rewrite it. No flowery language, no filler adjectives, no unnecessary formality.
