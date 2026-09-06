@@ -1,0 +1,178 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+KNOWN_AGENTS=("opencode" "claude" "agy" "codex")
+USED_BINARY=("tmux" "git" "fzf")
+
+missing_count=0
+for bin in "${USED_BINARY[@]}"; do
+    if ! command -v "$bin" >/dev/null 2>&1; then
+        echo "$bin is not installed" >&2
+        missing_count=$((missing_count + 1))
+    fi
+done
+if (( missing_count > 0 )); then
+    exit 1
+fi
+
+show_motd() {
+    local root="${1:-$PWD}"
+    local agent="${2:-agent}"
+    local folder
+    folder="$(basename "$root")"
+    local branch=""
+    if git -C "$root" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+        branch="$(git -C "$root" rev-parse --abbrev-ref HEAD 2>/dev/null || echo "")"
+    fi
+
+    local c_cyan="\033[1;36m"
+    local c_green="\033[1;32m"
+    local c_yellow="\033[1;33m"
+    local c_dim="\033[2m"
+    local c_reset="\033[0m"
+
+    echo ""
+    printf "  ${c_cyan}⚡ aicli${c_reset} ${c_dim}•${c_reset} \033[1m%s\033[0m\n" "$folder"
+    printf "  ${c_dim}├─${c_reset} Root   : %s\n" "$root"
+    if [[ -n "$branch" ]]; then
+        printf "  ${c_dim}├─${c_reset} Branch : ${c_green}%s${c_reset}\n" "$branch"
+    fi
+    printf "  ${c_dim}├─${c_reset} Agent  : ${c_yellow}%s${c_reset} ${c_dim}(Left Pane)${c_reset}\n" "$agent"
+    printf "  ${c_dim}└─${c_reset} Info   : ${c_dim}Closing agent pane terminates session${c_reset}\n"
+    echo ""
+}
+
+# Internal handler to display MOTD and drop into user's interactive shell
+if [[ "${1:-}" == "--motd" ]]; then
+    shift
+    MOTD_ROOT="${1:-$PWD}"
+    MOTD_AGENT="${2:-agent}"
+    show_motd "$MOTD_ROOT" "$MOTD_AGENT"
+    exec "${SHELL:-/bin/bash}"
+fi
+
+show_help() {
+    cat <<EOF
+Usage: $(basename "$0") [AGENT] [ARGS...]
+
+Launch an AI agent CLI alongside a terminal in the project root inside tmux.
+
+Supported Agents:
+  opencode (default)
+  claude
+  agy
+  codex
+  <custom-command>
+
+Options:
+  -h, --help    Show this help message
+EOF
+}
+
+if [[ "${1:-}" == "-h" || "${1:-}" == "--help" ]]; then
+    show_help
+    exit 0
+fi
+
+# Detect project root directory and sanitize session name
+PROJECT_ROOT="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
+FOLDER_NAME="$(basename "$PROJECT_ROOT" | tr '.: ' '___')"
+SESSION_NAME="aicli-${FOLDER_NAME}"
+
+# If session already exists, switch or attach
+if tmux has-session -t "$SESSION_NAME" 2>/dev/null; then
+    if [[ -n "${TMUX:-}" ]]; then
+        exec tmux switch-client -t "$SESSION_NAME"
+    else
+        exec tmux attach-session -t "$SESSION_NAME"
+    fi
+fi
+
+# Determine agent and arguments
+if [[ $# -gt 0 ]]; then
+    AGENT="$1"
+    shift
+    AGENT_ARGS=("$@")
+else
+    if [[ -t 0 ]] && command -v fzf >/dev/null 2>&1; then
+        AGENT="$(printf "%s\n" "${KNOWN_AGENTS[@]}" | fzf --prompt="Select AI Agent: " --header="[Default: opencode]" || true)"
+        [[ -z "$AGENT" ]] && AGENT="opencode"
+    elif [[ -t 0 ]]; then
+        echo "Select AI Agent [default: opencode]:"
+        select opt in "${KNOWN_AGENTS[@]}"; do
+            AGENT="${opt:-opencode}"
+            break
+        done
+        [[ -z "${AGENT:-}" ]] && AGENT="opencode"
+    else
+        AGENT="opencode"
+    fi
+    AGENT_ARGS=()
+fi
+
+if ! command -v "$AGENT" >/dev/null 2>&1; then
+    echo "Warning: '$AGENT' was not found in PATH." >&2
+fi
+
+printf -v ESCAPED_AGENT '%q' "$AGENT"
+if [[ ${#AGENT_ARGS[@]} -gt 0 ]]; then
+    printf -v ESCAPED_ARGS '%q ' "${AGENT_ARGS[@]}"
+    FULL_CMD="${ESCAPED_AGENT} ${ESCAPED_ARGS}"
+else
+    FULL_CMD="${ESCAPED_AGENT}"
+fi
+
+RUN_CMD="bash -c 'trap \"tmux kill-session -t \\\"${SESSION_NAME}\\\"\" EXIT; ${FULL_CMD}; tmux kill-session -t \"${SESSION_NAME}\"'"
+
+# Create session with the AI agent in the first pane
+AGENT_PANE_ID="$(tmux new-session -d -s "$SESSION_NAME" -c "$PROJECT_ROOT" -P -F "#{pane_id}" "$RUN_CMD")"
+
+# Tag project root folder on the session
+tmux set-option -t "$SESSION_NAME" @aicli_project_root "$PROJECT_ROOT"
+
+# Configure default-command on session so all terminal panes & splits show MOTD
+AICLI_BIN="$(readlink -f "$0" 2>/dev/null || realpath "$0" 2>/dev/null || echo "$0")"
+tmux set-option -t "$SESSION_NAME" default-command \
+    "bash -c '\"${AICLI_BIN}\" --motd \"${PROJECT_ROOT}\" \"${AGENT}\"'"
+
+# Split window horizontally to add a terminal pane on the right (at project root)
+tmux split-window -h -t "$AGENT_PANE_ID" -c "$PROJECT_ROOT"
+
+# Focus back on the AI Agent pane
+tmux select-pane -t "$AGENT_PANE_ID"
+
+# Session hooks:
+# - If the AI agent pane is killed/closed, destroy the entire session.
+# - If the terminal pane is closed, do nothing.
+tmux set-hook -t "$SESSION_NAME" after-kill-pane \
+    "run-shell 'tmux list-panes -t \"${SESSION_NAME}\" -F \"##{pane_id}\" 2>/dev/null | grep -q \"^${AGENT_PANE_ID}\$\" || tmux kill-session -t \"${SESSION_NAME}\"'"
+# - Prevent creating any additional windows in this session
+tmux set-hook -t "$SESSION_NAME" after-new-window \
+    "kill-window; display-message 'New windows are disabled in aicli session'"
+
+# Conditionally disable prefix + c only for aicli-* sessions globally
+tmux bind-key -T prefix c \
+    if-shell -F '#{m:aicli-*,#{session_name}}' \
+    "display-message 'New windows are disabled in aicli session'" \
+    "new-window -c '#{pane_current_path}'"
+
+# Override keybinding split on the current session
+tmux bind-key -T prefix % if-shell -F "#{m:aicli-*,#{session_name}}" \
+    "split-window -h -c '#{@aicli_project_root}'" \
+    "split-window -h -c '#{pane_current_path}'"
+tmux bind-key -T prefix - if-shell -F "#{m:aicli-*,#{session_name}}" \
+    "split-window -v -c '#{@aicli_project_root}'" \
+    "split-window -v -c '#{pane_current_path}'"
+tmux bind-key -T prefix \" if-shell -F "#{m:aicli-*,#{session_name}}" \
+    "split-window -v -c '#{@aicli_project_root}'" \
+    "split-window -c '#{pane_current_path}'"
+tmux bind-key -T prefix _ if-shell -F "#{m:aicli-*,#{session_name}}" \
+    "split-window -h -c '#{@aicli_project_root}'" \
+    "split-window -h -c '#{pane_current_path}'"
+
+# Attach or switch client to the session
+if [[ -n "${TMUX:-}" ]]; then
+    exec tmux switch-client -t "$SESSION_NAME"
+else
+    exec tmux attach-session -t "$SESSION_NAME"
+fi
