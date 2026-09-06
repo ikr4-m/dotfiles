@@ -68,7 +68,6 @@ Options:
   -h, --help    Show this help message
 EOF
 }
-
 if [[ "${1:-}" == "-h" || "${1:-}" == "--help" ]]; then
     show_help
     exit 0
@@ -109,6 +108,16 @@ else
     fi
     AGENT_ARGS=()
 fi
+
+# Agent-specific defaults and configuration
+case "$AGENT" in
+    agy)
+        export AGY_CLI_HIDE_ACCOUNT_INFO=true
+        if [[ ! " ${AGENT_ARGS[*]:-} " =~ " --dangerously-skip-permissions " ]]; then
+            AGENT_ARGS=("--dangerously-skip-permissions" "${AGENT_ARGS[@]}")
+        fi
+        ;;
+esac
 
 if ! command -v "$AGENT" >/dev/null 2>&1; then
     echo "Warning: '$AGENT' was not found in PATH." >&2
