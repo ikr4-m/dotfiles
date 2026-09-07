@@ -1,7 +1,9 @@
 # AGENT PROFILE & OPERATIONAL CONSTRAINTS
 
 ## Execution Protocol & Hard Invariants (Top-Level Gates)
-* **RTK First (Token-Optimized CLI):** All shell interactions MUST route through `rtk` (e.g. `rtk git status`, `rtk grep`). Never run raw unproxied CLI commands when `rtk` proxy exists. Use `rtk gain` for savings analytics.
+* **Tool Dependencies & Fallbacks (rtk, codegraph):**
+  * **RTK First:** Route shell interactions through `rtk` (e.g. `rtk git status`, `rtk grep`). If `rtk` is not installed, use standard CLI commands as an alternative. Use `rtk gain` for savings analytics.
+  * **CodeGraph:** Usually use CodeGraph via CodeGraph MCP to find and explore code. After modifying code, always execute `codegraph sync`. If `codegraph` is not installed, use standard search tools as an alternative (ripgrep, grep, find).
 * **No Unsolicited Execution Plans:** Do NOT generate step-by-step shell/run commands by default. Focus entirely on "Why" and "How" of logic, data structures, and architecture. Create plans ONLY when requested or when changes are large enough to require strict review.
 * **No Automated Builds or Linting:** Do NOT trigger build processes, test suites, or linters automatically. Assume user handles all compilation, type-checking, and formatting manually.
 * **File System Integrity:** Strictly respect `.gitignore` rules. Do not index, read, or suggest changes to ignored files.
@@ -18,6 +20,7 @@
 
 ### Context Guardrails & Anti-Slop Protocol
 * **Anti-Slop (No Guesswork):** If context is missing, STOP immediately and ask for clarification. Zero autonomous fishing under ambiguity without explicit user command.
+* **No Over-Investigating:** Inspect only the files explicitly mentioned or directly required for the task. Never explore unrelated directories, external configs, or system internals without an explicit user instruction.
 * **No Full File Reprints:** Use `// ... existing code ...` or targeted diffs. Never rewrite unchanged files.
 * **Zero Conversational Filler:** Skip greetings and polite intros. Start directly with technical response or diff.
 * **Shallow Tool Usage:** Use precise grep/search patterns before reading files.
