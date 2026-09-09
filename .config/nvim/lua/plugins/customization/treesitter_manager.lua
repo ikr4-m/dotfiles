@@ -3,11 +3,9 @@ return {
   --cmd = { "TSInstall", "TSUpdate", "TSRemove" },
   opts = {
     ensure_installed = { 
-      "lua", "vim", "vimdoc", "javascript", "typescript", "python", "html", "css" 
+      "lua", "vim", "vimdoc", "javascript", "typescript", "python", "html", "css", "blade" 
     },
     auto_install = true,
-    highlight = {
-      enable = true,
-    },
+    highlight = true,
   },
 }
