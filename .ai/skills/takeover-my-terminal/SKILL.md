@@ -26,7 +26,35 @@ Trigger this skill when the user requests to take over their active tmux termina
 * Once a session is confirmed, explicitly record and preserve the target tmux session name in conversation memory/context.
 * Refer to this stored session name for all subsequent tmux interactions during the task.
 
-### 4. Direct Terminal Interaction Guidelines
-* Send commands using `tmux send-keys -t <session_name> "<command>" C-m`.
-* Capture terminal output cleanly using `tmux capture-pane -pt <session_name>` without triggering pagers.
-* Ensure all shell operations execute in non-interactive / non-paging mode (`PAGER=cat` or `--no-pager`).
+### 4. Pre-Flight State Check
+* Before sending keys, inspect the foreground command running in the target pane:
+  `tmux display-message -p -t <session_name> "#{pane_current_command}"`
+* Safe shells: `bash`, `zsh`, `fish`, `sh`.
+* If another program holds the pane (such as `vim`, `nvim`, `less`, `fzf`, `python`, or `sudo`), stop and ask the user before sending keys.
+
+### 5. Safe Input Injection
+* Clear any leftover text on the prompt first:
+  `tmux send-keys -t <session_name> C-u`
+* Send command text as raw literals to prevent keycode mangling:
+  `tmux send-keys -t <session_name> -l "<command>"`
+* Submit the command explicitly:
+  `tmux send-keys -t <session_name> Enter`
+
+### 6. Standardized Output Capture
+* Capture pane output with unwrapped lines and recent history:
+  `tmux capture-pane -pt <session_name> -J -S -500`
+* Ensure all commands run in non-interactive mode (`PAGER=cat` or `--no-pager`).
+
+### 7. Companion Panes for Long Tasks
+* For long-running commands or persistent background processes, avoid blocking the user's primary prompt. Offer to split a pane or open a window inside the same session:
+  `tmux split-window -t <session_name>`
+
+### 8. Handling Long-Running Processes (No Polling Loops)
+* **Strict Anti-Polling Rule:** Never loop or repeatedly call `capture-pane` across turns to wait for a command.
+* **Deterministic Completion with `tmux wait-for`:**
+  * Append a completion signal with a unique channel name when sending the command:
+    `tmux send-keys -t <session_name> -l "<command> ; tmux wait-for -S <channel_id>"`
+    `tmux send-keys -t <session_name> Enter`
+  * Run `tmux wait-for <channel_id>` as a background command. It will block cleanly and notify the agent upon completion without burning context tokens.
+* **Process Status Query:**
+  * For a quick check, inspect `tmux display-message -p -t <session_name> "#{pane_current_command}"`. When the command finishes, it reverts from the program name to `bash` or `zsh`.

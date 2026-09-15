@@ -1,6 +1,6 @@
 ---
 name: agent-council
-description: "Run any question, idea, or decision through a council of 5 AI advisors who independently analyze it, peer-review each other anonymously, and synthesize a final verdict. Based on Karpathy's LLM Council methodology. MANDATORY TRIGGERS: 'council this', 'run the council', 'war room this', 'pressure-test this', 'stress-test this', 'debate this'. STRONG TRIGGERS (use when combined with a real decision or tradeoff): 'should I X or Y', 'which option', 'what would you do', 'is this the right move', 'validate this', 'get multiple perspectives', 'I can't decide', 'I'm torn between'. Do NOT trigger on simple yes/no questions, factual lookups, or casual 'should I' without a meaningful tradeoff (e.g. 'should I use markdown' is not a council question). DO trigger when the user presents a genuine decision with stakes, multiple options, and context that suggests they want it pressure-tested from multiple angles."
+description: "Run any question, idea, or decision through a council of 5 AI advisors who independently analyze it, peer-review each other anonymously, and synthesize a final verdict. Based on Karpathy's LLM Council methodology. MANDATORY TRIGGERS: 'council this', 'run the council', 'war room this', 'pressure-test this', 'stress-test this', 'debate this', 'expand this idea', '/agent-council x5'. STRONG TRIGGERS (use when combined with a real decision or tradeoff): 'should I X or Y', 'which option', 'what would you do', 'is this the right move', 'validate this', 'get multiple perspectives', 'I can't decide', 'I'm torn between'. Do NOT trigger on simple yes/no questions, factual lookups, or casual 'should I' without a meaningful tradeoff (e.g. 'should I use markdown' is not a council question). DO trigger when the user presents a genuine decision with stakes, multiple options, and context that suggests they want it pressure-tested from multiple angles."
 ---
 
 # LLM Council
@@ -23,6 +23,8 @@ Good council questions:
 - "I'm thinking of pivoting from X to Y. Am I crazy?"
 - "Here's my landing page copy. What's weak?"
 - "Should I hire a VA or build an automation first?"
+- "Expand this idea: A new SaaS for writers" (Triggers Darwinian Expansion Protocol)
+- "/agent-council x5 on this architecture" (Triggers Darwinian Expansion Protocol)
 
 Bad council questions:
 - "What's the capital of France?" (one right answer, no need for perspectives)
@@ -256,6 +258,29 @@ Only save a transcript if the user asks for it or if the question is significant
 
 ---
 
+## advanced: The Darwinian Expansion Protocol (Recursive Expansion)
+
+If the user specifically asks to "expand an idea" or run recursive councils (e.g., `/agent-council x5`), do NOT just run the standard council or feed LLM output back into itself in a closed loop. A Council is a convergence engine, but expansion requires divergence. A closed AI loop without friction leads to mode collapse, feature bloat, and YAGNI violations.
+
+Instead, execute the **Darwinian Expansion Protocol**:
+
+### Step 1: Wildcard Ideation (Divergence)
+Spawn a single "Wildcard" sub-agent. Instruct it to act purely as a divergent thinker, brainstorming high-upside, adjacent concepts, mutations, and structural expansions of the user's core idea. Output these ideas in pure text.
+
+### Step 2: The Human Tripwire (Checkpoint)
+Present the Wildcard's raw ideas to the user. **You must pause execution here.** Ask the user for explicit approval (a "go/no-go" decision) on which specific threads to pursue. Do not proceed until the human explicitly aligns on the strategic value, preventing runaway compute costs.
+
+### Step 3: Mutation (Worktrees & Execution)
+For the threads approved by the user, leverage multi-agent orchestration (as defined in `.ai/knowledge/multi-agent.md`):
+- Spin up isolated Git worktrees (`rtk git worktree add .worktrees/<idea-branch>`).
+- Dispatch Execution sub-agents scoped to those worktrees.
+- Give them a hard constraint: build a minimal viable proof of concept (PoC) or write a passing test script for the expanded idea.
+
+### Step 4: Fitness Function (Council Convergence)
+Take the PoCs that successfully compile/execute and feed *their empirical results* (not abstract theories) into the standard 5-advisor Council. The Council debates the real-world friction of the code, stress-tests the architecture, and selects the optimal mutation to merge into the baseline.
+
+---
+
 ## example: counciling a product decision
 
 **User:** "Council this: I'm thinking of building a $297 course on Claude Code for beginners. My audience is mostly non-technical solopreneurs. Is this the right move?"
@@ -289,6 +314,7 @@ Only save a transcript if the user asks for it or if the question is significant
 - **Always spawn all 5 advisors in parallel.** Sequential spawning wastes time and lets earlier responses bleed into later ones.
 - **Always anonymize for peer review.** If reviewers know which advisor said what, they'll defer to certain thinking styles instead of evaluating on merit.
 - **The chairman can disagree with the majority.** If 4 out of 5 advisors say "do it" but the reasoning of the 1 dissenter is strongest, the chairman should side with the dissenter and explain why.
+- **Never auto-loop expansion ideas.** Divergent expansion requires isolated worktree execution and a strict human checkpoint to prevent exponential API token burn and hallucination loops.
 - **Don't council trivial questions.** If the user asks something with one right answer, just answer it. The council is for genuine uncertainty where multiple perspectives add value.
 - **The visual report matters.** Most users will scan the report, not read the full transcript. Make the HTML output clean and scannable.
 - **Do not modify any files in this operations.** The purpose of this council is simply to determine whether this target is "wise" or not. It is entirely up to the executor to make any changes or carry out the plan.

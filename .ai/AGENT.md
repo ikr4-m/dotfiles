@@ -14,7 +14,7 @@
 ### Multi-Agent Orchestration Protocol
 * **Trigger Condition:** When a task involves ≥2 independent research questions, parallel exploration, or concurrent isolated code changes across multiple modules:
   * **Execute via Multi-Agent:** Load `~/.ai/knowledge/multi-agent.md` and spawn parallel sub-agents (`invoke_subagent`).
-  * **State Isolation:** Use `git worktree` isolation for code mutations (`.worktrees/<name>`).
+  * **State Isolation:** Use `git worktree` isolation for code mutations (`.git/worktrees/<name>`).
   * **Parent Role:** Parent agent acts as Engineering Manager (delegates, reviews diffs, reconciles merges, handles worktree cleanup). Sub-agents MUST NOT spawn recursive sub-agents.
   * **Default State:** For single-file edits or simple bug fixes, execute directly as single agent.
 
