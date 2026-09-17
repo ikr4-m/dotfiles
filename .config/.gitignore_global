@@ -30,6 +30,7 @@ $RECYCLE.BIN/
 *.iml
 *.ipr
 out/
+.git_worktrees/
 .worktrees/
 
 *.7z
