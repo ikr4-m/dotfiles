@@ -24,22 +24,22 @@ For exploring multiple independent codebase modules or comparing architectural o
 For concurrent multi-file edits or multi-branch feature work.
 
 #### Step 1: Worktree Creation
-Create isolated worktrees under `.worktrees/` directory:
+Create isolated worktrees under `.git_worktrees/` directory:
 ```bash
-git worktree add .worktrees/<feature-name> -b feat/<feature-name>
+git worktree add .git_worktrees/<feature-name> -b feat/<feature-name>
 ```
 
 #### Step 2: Sub-Agent Dispatch
 Invoke sub-agent pointing explicitly to the worktree path:
-- **Target Path:** `.worktrees/<feature-name>/`
+- **Target Path:** `.git_worktrees/<feature-name>/`
 - **Scope:** Strictly confined to files within its worktree.
 
 #### Step 3: Verification & Review
 Upon sub-agent completion:
-1. Inspect git status and diff in `.worktrees/<feature-name>`:
+1. Inspect git status and diff in `.git_worktrees/<feature-name>`:
    ```bash
-   rtk git -C .worktrees/<feature-name> status
-   rtk git -C .worktrees/<feature-name> diff
+   rtk git -C .git_worktrees/<feature-name> status
+   rtk git -C .git_worktrees/<feature-name> diff
    ```
 2. Verify correctness and run targeted unit tests if applicable.
 
@@ -50,7 +50,7 @@ Upon sub-agent completion:
    ```
 2. **Cleanup Worktree and Branch:**
    ```bash
-   git worktree remove .worktrees/<feature-name> --force
+   git worktree remove .git_worktrees/<feature-name> --force
    git branch -d feat/<feature-name>
    ```
 

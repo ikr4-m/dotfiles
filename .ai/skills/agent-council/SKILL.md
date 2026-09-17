@@ -272,7 +272,7 @@ Present the Wildcard's raw ideas to the user. **You must pause execution here.**
 
 ### Step 3: Mutation (Worktrees & Execution)
 For the threads approved by the user, leverage multi-agent orchestration (as defined in `.ai/knowledge/multi-agent.md`):
-- Spin up isolated Git worktrees (`rtk git worktree add .worktrees/<idea-branch>`).
+- Spin up isolated Git worktrees (`rtk git worktree add .git_worktrees/<idea-branch>`).
 - Dispatch Execution sub-agents scoped to those worktrees.
 - Give them a hard constraint: build a minimal viable proof of concept (PoC) or write a passing test script for the expanded idea.
 
