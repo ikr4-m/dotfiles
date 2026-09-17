@@ -39,7 +39,7 @@ show_motd() {
         printf "  ${c_dim}├─${c_reset} Branch : ${c_green}%s${c_reset}\n" "$branch"
     fi
     printf "  ${c_dim}├─${c_reset} Agent  : ${c_yellow}%s${c_reset} ${c_dim}(Left Pane)${c_reset}\n" "$agent"
-    printf "  ${c_dim}└─${c_reset} Info   : ${c_dim}Closing agent pane terminates session${c_reset}\n"
+    printf "  ${c_dim}└─${c_reset} Info   : ${c_dim}Use 'aicli <agent>' to summon more agent windows${c_reset}\n"
     echo ""
 }
 
@@ -72,8 +72,13 @@ fi
 show_help() {
     cat <<EOF
 Usage: $(basename "$0") [AGENT] [ARGS...]
+       $(basename "$0") exec <AGENT> [ARGS...]
 
 Launch an AI agent CLI alongside a terminal in the project root inside tmux.
+If called when a session already exists, summons a new agent window.
+
+Commands:
+  exec <AGENT>  Run the agent directly in the current terminal with presets applied (no tmux)
 
 Supported Agents:
   opencode (default)
@@ -91,15 +96,48 @@ if [[ "${1:-}" == "-h" || "${1:-}" == "--help" ]]; then
     exit 0
 fi
 
+# In-place execution mode without tmux
+if [[ "${1:-}" == "exec" || "${1:-}" == "run" ]]; then
+    shift
+    if [[ $# -eq 0 ]]; then
+        echo "Error: 'exec' requires an agent name." >&2
+        exit 1
+    fi
+    EXEC_AGENT="$1"
+    shift
+    EXEC_ARGS=("$@")
+    case "$EXEC_AGENT" in
+        agy)
+            export AGY_CLI_HIDE_ACCOUNT_INFO=true
+            if [[ ! " ${EXEC_ARGS[*]:-} " =~ " --dangerously-skip-permissions " ]]; then
+                EXEC_ARGS=("--dangerously-skip-permissions" "${EXEC_ARGS[@]}")
+            fi
+            ;;
+    esac
+    exec "$EXEC_AGENT" "${EXEC_ARGS[@]}"
+fi
+
 # Detect project root directory and sanitize session name
 PROJECT_ROOT="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
 FOLDER_NAME="$(basename "$PROJECT_ROOT" | tr '.: ' '___')"
 SESSION_NAME="aicli-${FOLDER_NAME}"
 
-# If session already exists, switch or attach
+# Check if session already exists
+SESSION_EXISTS=false
 if tmux has-session -t "$SESSION_NAME" 2>/dev/null; then
+    SESSION_EXISTS=true
+fi
+
+# If session exists and user didn't specify arguments:
+# - Outside tmux: attach to existing session
+# - Inside tmux (different session): switch to existing session
+# - Inside this session: fall through to fzf prompt to select another agent window
+if $SESSION_EXISTS && [[ $# -eq 0 ]]; then
     if [[ -n "${TMUX:-}" ]]; then
-        exec tmux switch-client -t "$SESSION_NAME"
+        CURRENT_SESSION="$(tmux display-message -p '#S' 2>/dev/null || echo '')"
+        if [[ "$CURRENT_SESSION" != "$SESSION_NAME" ]]; then
+            exec tmux switch-client -t "$SESSION_NAME"
+        fi
     else
         exec tmux attach-session -t "$SESSION_NAME"
     fi
@@ -128,8 +166,10 @@ else
 fi
 
 # Agent-specific defaults and configuration
+ENV_PREFIX=""
 case "$AGENT" in
     agy)
+        ENV_PREFIX="AGY_CLI_HIDE_ACCOUNT_INFO=true "
         export AGY_CLI_HIDE_ACCOUNT_INFO=true
         if [[ ! " ${AGENT_ARGS[*]:-} " =~ " --dangerously-skip-permissions " ]]; then
             AGENT_ARGS=("--dangerously-skip-permissions" "${AGENT_ARGS[@]}")
@@ -144,20 +184,40 @@ fi
 printf -v ESCAPED_AGENT '%q' "$AGENT"
 if [[ ${#AGENT_ARGS[@]} -gt 0 ]]; then
     printf -v ESCAPED_ARGS '%q ' "${AGENT_ARGS[@]}"
-    FULL_CMD="${ESCAPED_AGENT} ${ESCAPED_ARGS}"
+    FULL_CMD="${ENV_PREFIX}${ESCAPED_AGENT} ${ESCAPED_ARGS}"
 else
-    FULL_CMD="${ESCAPED_AGENT}"
+    FULL_CMD="${ENV_PREFIX}${ESCAPED_AGENT}"
 fi
 
-# Create session with the AI agent in the first pane
-# Wrap command with EXIT trap so closing the agent kills the session
-RUN_CMD="trap 'tmux kill-session -t ${SESSION_NAME}' EXIT; ${FULL_CMD}"
-AGENT_PANE_ID="$(tmux new-session -d -s "$SESSION_NAME" -c "$PROJECT_ROOT" -P -F "#{pane_id}" "$RUN_CMD")"
+# Drop into interactive shell when agent exits so output/scrollback is preserved
+RUN_CMD="${FULL_CMD}; exec \${SHELL:-/bin/bash}"
 
 # Resolve absolute path to this script (for MOTD default-command)
 AICLI_BIN="$(readlink -f "$0" 2>/dev/null || realpath "$0" 2>/dev/null || echo "$0")"
 
-# Generate temp tmux config with session options and hooks
+# If session already exists, spawn a new window for this agent
+if $SESSION_EXISTS; then
+    AGENT_PANE_ID="$(tmux new-window -d -t "$SESSION_NAME" -n "$AGENT" -c "$PROJECT_ROOT" -P -F "#{pane_id}" "$RUN_CMD")"
+    tmux set-option -w -t "$AGENT_PANE_ID" default-command 'bash -c "\"${AICLI_BIN}\" --motd \"${PROJECT_ROOT}\" \"${AGENT}\""'
+    tmux split-window -h -t "$AGENT_PANE_ID" -c "$PROJECT_ROOT"
+    tmux select-pane -t "$AGENT_PANE_ID"
+    tmux select-window -t "$AGENT_PANE_ID"
+
+    if [[ -n "${TMUX:-}" ]]; then
+        CURRENT_SESSION="$(tmux display-message -p '#S' 2>/dev/null || echo '')"
+        if [[ "$CURRENT_SESSION" != "$SESSION_NAME" ]]; then
+            exec tmux switch-client -t "$SESSION_NAME"
+        fi
+        exit 0
+    else
+        exec tmux attach-session -t "$SESSION_NAME"
+    fi
+fi
+
+# Create new session with the AI agent in the first pane
+AGENT_PANE_ID="$(tmux new-session -d -s "$SESSION_NAME" -c "$PROJECT_ROOT" -P -F "#{pane_id}" "$RUN_CMD")"
+
+# Generate temp tmux config with session options
 AICLI_CONF="$(mktemp /tmp/aicli-XXXXXX.tmux.conf)"
 trap 'rm -f "$AICLI_CONF"' EXIT
 
@@ -174,12 +234,6 @@ set-option -t "${SESSION_NAME}" mode-keys vi
 # MOTD on all new panes
 set-option -t "${SESSION_NAME}" default-command 'bash -c "\"${AICLI_BIN}\" --motd \"${PROJECT_ROOT}\" \"${AGENT}\""'
 
-# Kill session when agent pane closes
-set-hook -t "${SESSION_NAME}" after-kill-pane "run-shell 'tmux list-panes -t \"${SESSION_NAME}\" -F \"##{pane_id}\" 2>/dev/null | grep -q \"^${AGENT_PANE_ID}\\\$\" || tmux kill-session -t \"${SESSION_NAME}\"'"
-
-# Block new windows in this session
-set-hook -t "${SESSION_NAME}" after-new-window "kill-window; display-message 'New windows are disabled in aicli session'"
-
 # Bottom status bar configuration (dynamic terminal palette colors)
 set-option -t "${SESSION_NAME}" status on
 set-option -t "${SESSION_NAME}" status-position bottom
@@ -188,13 +242,12 @@ set-option -t "${SESSION_NAME}" status-left-length 80
 set-option -t "${SESSION_NAME}" status-right-length 120
 set-option -t "${SESSION_NAME}" status-style "bg=default,fg=default"
 
-# Hide window list completely
-set-option -t "${SESSION_NAME}" window-status-format ""
-set-option -t "${SESSION_NAME}" window-status-current-format ""
+# Window list tabs
+set-option -t "${SESSION_NAME}" window-status-format "#[fg=colour245,bg=default] #I:#W "
+set-option -t "${SESSION_NAME}" window-status-current-format "#[fg=black,bg=cyan,bold] #I:#W #[default]"
 set-option -t "${SESSION_NAME}" window-status-separator ""
-set-option -t "${SESSION_NAME}" status-format[0] "#[align=left range=left #{E:status-left-style}]#[push-default]#{T;=/#{status-left-length}:status-left}#[pop-default]#[norange default]#[nolist align=right range=right #{E:status-right-style}]#[push-default]#{T;=/#{status-right-length}:status-right}#[pop-default]#[norange default]"
 
-# Left bar: session name + tmux uptime (no list of window)
+# Left bar: session name + tmux uptime
 set-option -t "${SESSION_NAME}" status-left "#[fg=black,bg=cyan,bold]  #S #[default] 󰔛 #(\"${AICLI_BIN}\" --uptime #{session_created}) "
 
 # Right bar: date & time + user@hostname
@@ -208,49 +261,6 @@ tmux split-window -h -t "$AGENT_PANE_ID" -c "$PROJECT_ROOT"
 
 # Focus back on the AI Agent pane
 tmux select-pane -t "$AGENT_PANE_ID"
-
-# Conditionally disable prefix + c only for aicli-* sessions globally
-tmux bind-key -T prefix c \
-    if-shell -F '#{m:aicli-*,#{session_name}}' \
-    "display-message 'New windows are disabled in aicli session'" \
-    "new-window -c '#{pane_current_path}'"
-
-# Prevent crossing or switching into other sessions from aicli sessions
-tmux bind-key -T prefix w if-shell -F '#{m:aicli-*,#{session_name}}' \
-    "display-message 'Session switching is disabled in aicli session'" "choose-tree -Zw"
-tmux bind-key -T prefix s if-shell -F '#{m:aicli-*,#{session_name}}' \
-    "display-message 'Session switching is disabled in aicli session'" "choose-tree -Zs"
-tmux bind-key -T prefix '(' if-shell -F '#{m:aicli-*,#{session_name}}' \
-    "display-message 'Session switching is disabled in aicli session'" "switch-client -p"
-tmux bind-key -T prefix ')' if-shell -F '#{m:aicli-*,#{session_name}}' \
-    "display-message 'Session switching is disabled in aicli session'" "switch-client -n"
-tmux bind-key -T prefix BTab if-shell -F '#{m:aicli-*,#{session_name}}' \
-    "display-message 'Session switching is disabled in aicli session'" "switch-client -l"
-tmux bind-key -T prefix C-f if-shell -F '#{m:aicli-*,#{session_name}}' \
-    "display-message 'Session switching is disabled in aicli session'" \
-    "command-prompt -p '(find-session)' 'switch-client -t %%'"
-tmux bind-key -T prefix C-c if-shell -F '#{m:aicli-*,#{session_name}}' \
-    "display-message 'New sessions are disabled in aicli session'" "new-session"
-
-# Disable command prompts and window search prompts that can cross sessions or windows
-tmux bind-key -T prefix : if-shell -F '#{m:aicli-*,#{session_name}}' \
-    "display-message 'Command prompt is disabled in aicli session'" "command-prompt"
-tmux bind-key -T prefix f if-shell -F '#{m:aicli-*,#{session_name}}' \
-    "display-message 'Find window is disabled in aicli session'" \
-    "command-prompt { find-window -Z '%%' }"
-tmux bind-key -T prefix "'" if-shell -F '#{m:aicli-*,#{session_name}}' \
-    "display-message 'Window switching is disabled in aicli session'" \
-    "command-prompt -T window-target -p index 'select-window -t :%%'"
-tmux bind-key -T prefix . if-shell -F '#{m:aicli-*,#{session_name}}' \
-    "display-message 'Move window is disabled in aicli session'" \
-    "command-prompt -T target 'move-window -t %%'"
-
-# Disable mouse session menu clicks from status bar in aicli sessions
-tmux bind-key -T root MouseDown1Status if-shell -F '#{m:aicli-*,#{session_name}}' "" "switch-client -t ="
-tmux bind-key -T root MouseDown3StatusLeft if-shell -F '#{m:aicli-*,#{session_name}}' "" \
-    "display-menu -T '#[align=centre]#{session_name}' -t = -x M -y W Next n { switch-client -n } Previous p { switch-client -p } '' Renumber N { move-window -r } Rename r { command-prompt -I '#S' { rename-session '%%' } } Detach d { detach-client } '' 'New Session' s { new-session } 'New Window' w { new-window }"
-tmux bind-key -T root M-MouseDown3StatusLeft if-shell -F '#{m:aicli-*,#{session_name}}' "" \
-    "display-menu -T '#[align=centre]#{session_name}' -t = -x M -y W Next n { switch-client -n } Previous p { switch-client -p } '' Renumber N { move-window -r } Rename r { command-prompt -I '#S' { rename-session '%%' } } Detach d { detach-client } '' 'New Session' s { new-session } 'New Window' w { new-window }"
 
 # Vi-style pane navigation (prefix + h/j/k/l) for aicli sessions
 tmux bind-key -T prefix h if-shell -F "#{m:aicli-*,#{session_name}}" \
