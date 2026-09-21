@@ -38,7 +38,7 @@ show_motd() {
     if [[ -n "$branch" ]]; then
         printf "  ${c_dim}├─${c_reset} Branch : ${c_green}%s${c_reset}\n" "$branch"
     fi
-    printf "  ${c_dim}├─${c_reset} Agent  : ${c_yellow}%s${c_reset} ${c_dim}(Left Pane)${c_reset}\n" "$agent"
+    printf "  ${c_dim}├─${c_reset} Agent  : ${c_yellow}%s${c_reset} ${c_dim}(Right Pane)${c_reset}\n" "$agent"
     printf "  ${c_dim}└─${c_reset} Info   : ${c_dim}Use 'aicli <agent>' to summon more agent windows${c_reset}\n"
     echo ""
 }
@@ -199,7 +199,7 @@ AICLI_BIN="$(readlink -f "$0" 2>/dev/null || realpath "$0" 2>/dev/null || echo "
 if $SESSION_EXISTS; then
     AGENT_PANE_ID="$(tmux new-window -d -t "$SESSION_NAME" -n "$AGENT" -c "$PROJECT_ROOT" -P -F "#{pane_id}" "$RUN_CMD")"
     tmux set-option -w -t "$AGENT_PANE_ID" default-command 'bash -c "\"${AICLI_BIN}\" --motd \"${PROJECT_ROOT}\" \"${AGENT}\""'
-    tmux split-window -h -t "$AGENT_PANE_ID" -c "$PROJECT_ROOT"
+    tmux split-window -h -b -t "$AGENT_PANE_ID" -c "$PROJECT_ROOT"
     tmux select-pane -t "$AGENT_PANE_ID"
     tmux select-window -t "$AGENT_PANE_ID"
 
@@ -256,8 +256,8 @@ TMUX_CONF
 
 tmux source-file "$AICLI_CONF"
 
-# Split window horizontally to add a terminal pane on the right (at project root)
-tmux split-window -h -t "$AGENT_PANE_ID" -c "$PROJECT_ROOT"
+# Split window horizontally to add a terminal pane on the left (at project root)
+tmux split-window -h -b -t "$AGENT_PANE_ID" -c "$PROJECT_ROOT"
 
 # Focus back on the AI Agent pane
 tmux select-pane -t "$AGENT_PANE_ID"
