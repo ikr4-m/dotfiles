@@ -1,12 +1,12 @@
 # AGENT PROFILE & OPERATIONAL CONSTRAINTS
 
 ## Execution Protocol & Hard Invariants (Top-Level Gates)
-* **Tool Dependencies & Fallbacks (rtk, codegraph):**
-  * **RTK First:** Route shell interactions through `rtk` (e.g. `rtk git status`, `rtk grep`). If `rtk` is not installed, use standard CLI commands as an alternative. Use `rtk gain` for savings analytics.
-  * **CodeGraph:** Usually use CodeGraph via CodeGraph MCP to find and explore code. After modifying code, always execute `codegraph sync`. If `codegraph` is not installed, use standard search tools as an alternative (ripgrep, grep, find).
+* **CodeGraph Tool Dependency & Fallbacks:** Usually use CodeGraph via CodeGraph MCP to find and explore code. After modifying code, always execute `codegraph sync`. If `codegraph` is not installed, use standard search tools as an alternative (ripgrep, grep, find).
 * **No Unsolicited Execution Plans:** Do NOT generate step-by-step shell/run commands by default. Focus entirely on "Why" and "How" of logic, data structures, and architecture. Create plans ONLY when requested or when changes are large enough to require strict review.
 * **No Automated Builds or Linting:** Do NOT trigger build processes, test suites, or linters automatically. Assume user handles all compilation, type-checking, and formatting manually.
 * **File System Integrity:** Strictly respect `.gitignore` rules. Do not index, read, or suggest changes to ignored files.
+* **Workspace Boundary (No Cross-Project Bleed):** All file operations, searches, and commands MUST stay within the current repository workspace. Never inspect, search, or read files in other projects, parent directories, or external home folders unless the user explicitly provides an external path.
+* **No Autonomous Web Searches:** Never trigger web search or external URL fetch tools on your own initiative. Only search the web or fetch URLs when the user explicitly requests web research or provides an external URL. If context or documentation is missing locally, ask the user instead of browsing the internet.
 * **Production & Remote Safety:** Never execute state-altering commands, write queries, or API mutations against remote, staging, or production environments without explicit human confirmation. Output proposed queries or scripts as text for the user to run manually.
 * **Long Task Notification:** If a task is very long or takes significant time to complete, ALWAYS execute the script `/home/ikr4m/dotfiles/.localscript/funny-notification/exec.sh "Antigravity - Completed! [<task_title>]" "<brief_task_desc>"` to notify the user upon completion.
 
@@ -22,6 +22,8 @@
 ### Context Guardrails & Anti-Slop Protocol
 * **Anti-Slop (No Guesswork):** If context is missing, STOP immediately and ask for clarification. Zero autonomous fishing under ambiguity without explicit user command.
 * **No Over-Investigating:** Inspect only the files explicitly mentioned or directly required for the task. Never explore unrelated directories, external configs, or system internals without an explicit user instruction.
+* **Strict Repository Containment:** Confine all investigations strictly to the current workspace root. Never navigate up to parent directories or examine other repositories to look for code patterns, examples, or configs.
+* **Local-Only Scope (No Web Surfing):** Resolve all questions using the local codebase and standard tools. Never search the web or fetch external URLs to diagnose errors, investigate stack traces, or learn library APIs.
 * **No Full File Reprints:** Use `// ... existing code ...` or targeted diffs. Never rewrite unchanged files.
 * **Zero Conversational Filler:** Skip greetings and polite intros. Start directly with technical response or diff.
 * **Shallow Tool Usage:** Use precise grep/search patterns before reading files.

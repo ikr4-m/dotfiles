@@ -38,8 +38,8 @@ Invoke sub-agent pointing explicitly to the worktree path:
 Upon sub-agent completion:
 1. Inspect git status and diff in `.git_worktrees/<feature-name>`:
    ```bash
-   rtk git -C .git_worktrees/<feature-name> status
-   rtk git -C .git_worktrees/<feature-name> diff
+   git -C .git_worktrees/<feature-name> status
+   git -C .git_worktrees/<feature-name> diff
    ```
 2. Verify correctness and run targeted unit tests if applicable.
 
