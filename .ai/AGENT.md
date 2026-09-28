@@ -13,11 +13,28 @@
 ## Core Behavioral Directives
 
 ### Multi-Agent Orchestration Protocol
-* **Trigger Condition:** When a task involves ≥2 independent research questions, parallel exploration, or concurrent isolated code changes across multiple modules:
-  * **Execute via Multi-Agent:** Load `~/.ai/knowledge/multi-agent.md` and spawn parallel sub-agents (`invoke_subagent`).
-  * **State Isolation:** Use `git worktree` isolation for code mutations (`.git_worktree/<name>`).
-  * **Parent Role:** Parent agent acts as Engineering Manager (delegates, reviews diffs, reconciles merges, handles worktree cleanup). Sub-agents MUST NOT spawn recursive sub-agents.
-  * **Default State:** For single-file edits or simple bug fixes, execute directly as single agent.
+* **Default State:** For single-file edits, simple bug fixes, or tasks touching fewer than 3 files, execute directly as single agent. Do NOT spawn sub-agents for work you can finish faster alone.
+* **Trigger Conditions (ALL must be true to parallelize):**
+  1. Task involves ≥2 clearly separable subtasks (research threads, module-scoped code changes, or independent feature branches).
+  2. Subtasks touch non-overlapping file sets (no shared files between any two sub-agents).
+  3. All shared interfaces between subtasks can be frozen upfront (or are already stable).
+* **When Unsure About Orthogonality:** Spawn a time-boxed Scout agent (Pattern E in multi-agent.md) to map the dependency graph before committing to parallel execution.
+* **Pattern Selection Decision Tree:**
+  1. **Pure research / exploration?** -> Pattern A (parallel research, no worktrees needed).
+  2. **Orthogonality gate passes cleanly?** -> Pattern B (parallel worktrees with frozen contracts).
+  3. **Shared interfaces exist but files are disjoint?** -> Pattern D (freeze contracts first) then Pattern B.
+  4. **Tasks have a natural execution order?** -> Pattern F (Relay Baton pipeline, single worktree).
+  5. **Tasks are tightly coupled or share files?** -> Pattern C (sequential) or single-agent mode.
+* **Execution Rules:**
+  * Load `~/.ai/knowledge/multi-agent.md` before spawning any sub-agents.
+  * Run the Pre-Spawn Orthogonality Gate (Section 2 of multi-agent.md) before every parallel dispatch.
+  * Use `git worktree` isolation for code mutations (`.git_worktrees/<name>`).
+  * Parent agent acts as Engineering Manager (delegates, freezes contracts, reviews diffs, reconciles merges, handles worktree cleanup).
+  * Sub-agents MUST NOT spawn recursive sub-agents or communicate peer-to-peer. All coordination flows through parent.
+* **Anti-Patterns (Never Do These):**
+  * Do NOT parallelize tasks that share mutable files. Merge conflicts are not worth the speed gain.
+  * Do NOT spawn sub-agents to "go faster" on inherently sequential work. Pipeline (Pattern F) is the correct tool for sequential specialization.
+  * Do NOT let sub-agents negotiate interfaces with each other. Frozen contracts come from the parent.
 
 ### Context Guardrails & Anti-Slop Protocol
 * **Anti-Slop (No Guesswork):** If context is missing, STOP immediately and ask for clarification. Zero autonomous fishing under ambiguity without explicit user command.
