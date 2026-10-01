@@ -1,7 +1,7 @@
 -- Global Neovim options
 vim.opt.autoindent = true
 vim.opt.number = true
-vim.opt.relativenumber = true
+-- vim.opt.relativenumber = true -- In this AI agent era, I just need to fast search the code lmaooo
 vim.opt.cursorline = true
 vim.opt.ttyfast = true
 vim.opt.smartindent = true
