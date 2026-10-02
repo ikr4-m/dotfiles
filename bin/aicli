@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-KNOWN_AGENTS=("opencode" "claude" "agy" "codex")
+KNOWN_AGENTS=("opencode" "claude" "agy" "codex" "omp")
 USED_BINARY=("tmux" "git" "fzf")
 
 missing_count=0
@@ -85,6 +85,7 @@ Supported Agents:
   claude
   agy
   codex
+  omp
   <custom-command>
 
 Options:
@@ -272,19 +273,6 @@ tmux bind-key -T prefix k if-shell -F "#{m:aicli-*,#{session_name}}" \
 tmux bind-key -T prefix l if-shell -F "#{m:aicli-*,#{session_name}}" \
     "select-pane -R" "select-pane -R"
 
-# Override keybinding split on the current session
-tmux bind-key -T prefix % if-shell -F "#{m:aicli-*,#{session_name}}" \
-    "split-window -h -c '#{@aicli_project_root}'" \
-    "split-window -h -c '#{pane_current_path}'"
-tmux bind-key -T prefix - if-shell -F "#{m:aicli-*,#{session_name}}" \
-    "split-window -v -c '#{@aicli_project_root}'" \
-    "split-window -v -c '#{pane_current_path}'"
-tmux bind-key -T prefix \" if-shell -F "#{m:aicli-*,#{session_name}}" \
-    "split-window -v -c '#{@aicli_project_root}'" \
-    "split-window -c '#{pane_current_path}'"
-tmux bind-key -T prefix _ if-shell -F "#{m:aicli-*,#{session_name}}" \
-    "split-window -h -c '#{@aicli_project_root}'" \
-    "split-window -h -c '#{pane_current_path}'"
 
 # Attach or switch client to the session
 if [[ -n "${TMUX:-}" ]]; then
